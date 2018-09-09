@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -21,6 +22,7 @@ public class Principal extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtPath;
 	private FileReader fr; 
+	private BufferedReader bf;
 
 	/**
 	 * Launch the application.
@@ -64,10 +66,13 @@ public class Principal extends JFrame {
 		
 		JButton btnIniciarParser = new JButton("Iniciar Parser");
 		btnIniciarParser.addActionListener(new ActionListener() {
+			// Acción del boton "Iniciar Parser"
 			public void actionPerformed(ActionEvent arg0) {
+				// Abro el archivo que contiene el código fuente
 				File file = new File (txtPath.getText());
 				try {
 					fr = new FileReader(file);
+					bf = new BufferedReader (fr);
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -75,7 +80,11 @@ public class Principal extends JFrame {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-			// completar llamando al parser y puede ser que tenga que llamar al lexico
+				
+				// Creo el analizador lexico y se lo paso como parametro al parser
+				Lexico analizadorLexico = new Lexico(bf); 
+				Parser analizadorSintactico = new Parser(analizadorLexico);
+			
 			}
 		});
 		btnIniciarParser.setBounds(10, 57, 106, 23);
