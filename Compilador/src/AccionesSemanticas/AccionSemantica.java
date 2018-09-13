@@ -3,5 +3,11 @@ package AccionesSemanticas;
 public abstract class AccionSemantica {
 	
 	public String ejecutar() {
-		return "";}
+		return "";
+		}
+	
+	public String concatenarCadena(String tokenString, Character caracterActual) {
+		tokenString = tokenString + caracterActual;
+		return tokenString;
+	}
 }

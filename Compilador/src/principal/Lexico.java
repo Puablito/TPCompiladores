@@ -75,11 +75,7 @@ public class Lexico {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		public void agregaalacadena(String tokenString, Character caracterActual) {
-			tokenString = tokenString + caracterActual;
-			return tokenString;
-		}
+
 		
 		// Verifica si el token ya esta en la tabla: IRIA DENTRO DE LA ACCION SEMANTICA.
 		/*		if (!tablaSimbolos.containsKey(tokenString)) { 
