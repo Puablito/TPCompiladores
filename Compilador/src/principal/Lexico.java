@@ -13,7 +13,7 @@ public class Lexico {
 	private int matrizEstados[][];
 	private int estadoActual;
 	private int codigoCaracterActual;
-	private int cantidadLineas=1 ;
+	private int cantidadLineas=1;
 	private int tokenId=0;
 	private int fila=0;
 	private int columna;
@@ -25,14 +25,15 @@ public class Lexico {
 	private AccionSemantica as;
 	Hashtable<String,String> tablaSimbolos = new Hashtable<String,String>(); //no se cuantos campos tendr� ni el tipo de datos, genericamente la arme con 2 campos string 
 	Hashtable<Character,Integer> tablaConversion = new Hashtable<Character,Integer>(); // para saber a que columna de la matriz de estado pertenece cada caracter
+	Hashtable<String,Integer> palabrasReservadas = new Hashtable<String,Integer>();
 	BufferedReader codigoFuente;
 	
 	// Contructor - Se usa en "Principal.java"
 	public Lexico(BufferedReader fileR) {
 		this.codigoFuente = fileR;
 //		inicializarMatrizAS(); descomentar cuando se descomente el metodo asi no da error
-		inicializarMatrizEstados();
 		inicializarListaConversion();
+		inicializaPalabrasReservadas();
 	}
 	
 	public int getToken() {
@@ -46,27 +47,27 @@ public class Lexico {
 				codigoCaracterActual = codigoFuente.read(); 	// leo codigo ascii del caracter
 				caracterActual = (char) codigoCaracterActual; 	// se castea para recuperar el caracter del codigo ascii leido
 				if (caracterActual.equals('\n')){
-					cantidadLineas++;
+					cantidadLineas = cantidadLineas+1;
 				}
 				
 				//si no esta en la tabla el get falla y da nullpointerexeption
-				// por eso el if, pero que pasa si viene un caracter que no esta en la tabla?
-				// ver que hacer en ese caso, que es raro que suceda
-				if (tablaSimbolos.containsKey(tokenString)) { // si el caracter est� devuelve el dato 
+				if (tablaSimbolos.containsKey(tokenString)) { // si el caracter esta devuelve el dato 
 					columna = tablaConversion.get(caracterActual); // devuelve la columna a la que pertenece el caracter leido en la matriz de estados
-				}
 				
-				// las 2 lineas siguientes se pueden hacer juntas pero me parece mas entendible separadas
-				as = matrizAS[fila][columna];	// En as se asigna la accion semantica que se encuentra en la posicion de la matriz
-				
-				//tokenString => se va armando el token en esta variable 
-				tokenString = as.ejecutar(); // pasar el caracter actual, el tokenString y lo que sea necesario y que devuelva el tokenString con la agregacion realizada del caracter 
-				
-				//Recupero de la matriz de estados el estado siguiente del automata (en la matriz es la fila) 
-				fila = matrizEstados[fila][columna];
-				
-				if (fila == -2){
-					// realiza gestion de errores
+					// las 2 lineas siguientes se pueden hacer juntas pero me parece mas entendible separadas
+					as = matrizAS[fila][columna];	// En as se asigna la accion semantica que se encuentra en la posicion de la matriz
+					
+					//tokenString => se va armando el token en esta variable 
+					tokenString = as.ejecutar(); // pasar el caracter actual, el tokenString y lo que sea necesario y que devuelva el tokenString con la agregacion realizada del caracter 
+					
+					//Recupero de la matriz de estados el estado siguiente del automata (en la matriz es la fila) 
+					fila = matrizEstados[fila][columna];
+					
+					if (fila == -2){
+						// realiza gestion de errores
+					}
+				}else {
+					// ver que hacemos cuando viene un caracter no valido para nuestro lenguaje
 				}
 			}
 		}catch (Exception e) {
@@ -126,6 +127,18 @@ public class Lexico {
 		  System.out.println( "Simbolos: " + tablaSimbolos.keys() );
 	}
 
+	private void inicializaPalabrasReservadas() {
+		palabrasReservadas.put("IF",257);
+		palabrasReservadas.put("THEN",258);
+		palabrasReservadas.put("ELSE",259);
+		palabrasReservadas.put("ENDIF",260);
+		palabrasReservadas.put("PRINT",261);
+		palabrasReservadas.put("BEGIN",262);
+		palabrasReservadas.put("END",263);
+		palabrasReservadas.put("IDENTIFICADOR",264);
+		palabrasReservadas.put("CONSTANTE",265);
+		
+	}
 	private void inicializarListaConversion(){
 		//Campo1: caracter
 		//Campo2: columna a la que pertenece en la matriz de estados 
