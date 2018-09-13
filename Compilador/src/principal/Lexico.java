@@ -36,7 +36,7 @@ public class Lexico {
 		inicializaPalabrasReservadas();
 	}
 	
-	public int getToken() {
+	public Token getToken() {
 		
 		columna = 0;
 		codigoCaracterActual = 0;
