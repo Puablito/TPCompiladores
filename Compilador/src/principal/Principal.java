@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,12 +17,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.awt.event.ActionEvent;
-
+import javax.swing.JOptionPane;
 public class Principal extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtPath;
-	private FileReader fr; 
+	public FileReader fr; 
 	private BufferedReader bf;
 
 	/**
@@ -66,25 +67,32 @@ public class Principal extends JFrame {
 		
 		JButton btnIniciarParser = new JButton("Iniciar Parser");
 		btnIniciarParser.addActionListener(new ActionListener() {
-			// Acción del boton "Iniciar Parser"
+			// Acciï¿½n del boton "Iniciar Parser"
 			public void actionPerformed(ActionEvent arg0) {
-				// Abro el archivo que contiene el código fuente
-				File file = new File (txtPath.getText());
-				try {
-					fr = new FileReader(file);
-					bf = new BufferedReader (fr);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 				
-				// Creo el analizador lexico y se lo paso como parametro al parser
-				Lexico analizadorLexico = new Lexico(bf); 
-				Parser analizadorSintactico = new Parser(analizadorLexico);
-			
+				String cPath = txtPath.getText();
+				if (cPath.isEmpty()){
+					JOptionPane.showMessageDialog(null, "Debe ingresar una ruta de archivo!");
+				}else {
+					// Abro el archivo que contiene el cï¿½digo fuente
+					File file = new File (cPath);
+					try {
+						//fr = new FileReader(file)
+						//FileReader fr = new FileReader(cPath); comento para pruebas
+						FileReader fr = new FileReader("C:\\cf.txt");
+						bf = new BufferedReader (fr);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+					// Creo el analizador lexico y se lo paso como parametro al parser
+					Lexico analizadorLexico = new Lexico(bf); 
+					Parser analizadorSintactico = new Parser(analizadorLexico);
+				}
 			}
 		});
 		btnIniciarParser.setBounds(10, 57, 106, 23);

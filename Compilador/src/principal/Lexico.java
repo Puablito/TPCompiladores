@@ -3,23 +3,29 @@ package principal;
 import java.io.BufferedReader;
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import javax.swing.JOptionPane;
+
 import AccionesSemanticas.*;
 
 public class Lexico {
+	
 	private int matrizEstados[][];
-	private AccionSemantica matrizAS[][]; // Cada acción tiene una Accion Semantica dentro
-	private AccionSemantica as;
-	Hashtable<String,String> tablaSimbolos = new Hashtable<String,String>(); //no se cuantos campos tendrá ni el tipo de datos, genericamente la arme con 2 campos string 
-	Hashtable<Character,Integer> tablaConversion = new Hashtable<Character,Integer>(); // para saber a que columna de la matriz de estado pertenece cada caracter
-	BufferedReader codigoFuente;
 	private int estadoActual;
 	private int codigoCaracterActual;
 	private int cantidadLineas=1 ;
 	private int tokenId=0;
 	private int fila=0;
 	private int columna;
+	
 	private String tokenString;
 	private Character caracterActual;
+	
+	private AccionSemantica matrizAS[][]; // Cada acciï¿½n tiene una Accion Semantica dentro
+	private AccionSemantica as;
+	Hashtable<String,String> tablaSimbolos = new Hashtable<String,String>(); //no se cuantos campos tendrï¿½ ni el tipo de datos, genericamente la arme con 2 campos string 
+	Hashtable<Character,Integer> tablaConversion = new Hashtable<Character,Integer>(); // para saber a que columna de la matriz de estado pertenece cada caracter
+	BufferedReader codigoFuente;
 	
 	// Contructor - Se usa en "Principal.java"
 	public Lexico(BufferedReader fileR) {
@@ -46,7 +52,7 @@ public class Lexico {
 				//si no esta en la tabla el get falla y da nullpointerexeption
 				// por eso el if, pero que pasa si viene un caracter que no esta en la tabla?
 				// ver que hacer en ese caso, que es raro que suceda
-				if (tablaSimbolos.containsKey(tokenString)) { // si el caracter está devuelve el dato 
+				if (tablaSimbolos.containsKey(tokenString)) { // si el caracter estï¿½ devuelve el dato 
 					columna = tablaConversion.get(caracterActual); // devuelve la columna a la que pertenece el caracter leido en la matriz de estados
 				}
 				
@@ -59,7 +65,7 @@ public class Lexico {
 				//Recupero de la matriz de estados el estado siguiente del automata (en la matriz es la fila) 
 				fila = matrizEstados[fila][columna];
 				
-				if (fila != -2){
+				if (fila == -2){
 					// realiza gestion de errores
 				}
 			}
@@ -96,8 +102,10 @@ public class Lexico {
 //	}
 	
 	public void inicializarMatrizEstados() {
+		 // Final = -1
+		 // Error = -2
 		int matrizEstados[][] = {	/* 20 Columnas*/
-		/* fila 0*/				{ 2, 1, 9, 1, 0, 5, 6, 6,-1, 3,-1,-1,-1,-1,-1, 7, 1, 1, 1,-2}, // -1 = Final y -2 = Error (no se si esta bien)
+		/* fila 0*/				{ 2, 1, 9, 1, 0, 5, 6, 6,-1, 3,-1,-1,-1,-1,-1, 7, 1, 1, 1,-2},
 		/* fila 1*/				{-1, 1, 1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 1, 1,-1},
 		/* fila 2*/				{ 2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
 		/* fila 3*/				{-1,-1,-1,-1,-1,-1,-1,-1,-1, 4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
@@ -114,42 +122,13 @@ public class Lexico {
 	}
 	
 	
-	
 	public void mostrarListaSimbolos(){ //Lista las claves de la tabla de simbolos
 		  System.out.println( "Simbolos: " + tablaSimbolos.keys() );
 	}
 
 	private void inicializarListaConversion(){
-		//1er campo va el caracter, 2do la columna a la que pertenece en la matriz de estados 
-//(COMPLETAR COLUMNA 2 CON NUESTROS DATOS - YO SOLO COPIE Y PEGUE)- Pablo
-//NO SE PORQUE USAN EL CHARAT(0) PARA MI NO VA - Pablo
-		tablaConversion.put("a".charAt(0), 0); 
-		tablaConversion.put("b".charAt(0), 0);
-		tablaConversion.put("c".charAt(0), 0);
-		tablaConversion.put("d".charAt(0), 0);
-		tablaConversion.put("e".charAt(0), 0);
-		tablaConversion.put("f".charAt(0), 0);
-		tablaConversion.put("g".charAt(0), 0);
-		tablaConversion.put("h".charAt(0), 0);
-		tablaConversion.put("i".charAt(0), 8);
-		tablaConversion.put("j".charAt(0), 0);
-		tablaConversion.put("k".charAt(0), 0);
-		tablaConversion.put("l".charAt(0), 7);
-		tablaConversion.put("m".charAt(0), 0);
-		tablaConversion.put("n".charAt(0), 0);
-		tablaConversion.put("o".charAt(0), 0);
-		tablaConversion.put("p".charAt(0), 0);
-		tablaConversion.put("q".charAt(0), 0);
-		tablaConversion.put("r".charAt(0), 0);
-		tablaConversion.put("s".charAt(0), 0);
-		tablaConversion.put("t".charAt(0), 0);
-		tablaConversion.put("u".charAt(0), 6);
-		tablaConversion.put("v".charAt(0), 0);
-		tablaConversion.put("w".charAt(0), 0);
-		tablaConversion.put("x".charAt(0), 0);
-		tablaConversion.put("y".charAt(0), 0);
-		tablaConversion.put("z".charAt(0), 0);
-		
+		//Campo1: caracter
+		//Campo2: columna a la que pertenece en la matriz de estados 
 		tablaConversion.put("A".charAt(0), 0);
 		tablaConversion.put("B".charAt(0), 0);
 		tablaConversion.put("C".charAt(0), 0);
@@ -177,57 +156,89 @@ public class Lexico {
 		tablaConversion.put("Y".charAt(0), 0);
 		tablaConversion.put("Z".charAt(0), 0);
 		
-		tablaConversion.put("0".charAt(0), 1);
-		tablaConversion.put("1".charAt(0), 1);
-		tablaConversion.put("2".charAt(0), 1);
-		tablaConversion.put("3".charAt(0), 1);
-		tablaConversion.put("4".charAt(0), 1);
-		tablaConversion.put("5".charAt(0), 1);
-		tablaConversion.put("6".charAt(0), 1);
-		tablaConversion.put("7".charAt(0), 1);
-		tablaConversion.put("8".charAt(0), 1);
-		tablaConversion.put("9".charAt(0), 1);
+		tablaConversion.put("a".charAt(0), 1); 
+		tablaConversion.put("b".charAt(0), 1);
+		tablaConversion.put("c".charAt(0), 1);
+		tablaConversion.put("d".charAt(0), 1);
+		tablaConversion.put("e".charAt(0), 1);
+		tablaConversion.put("f".charAt(0), 1);
+		tablaConversion.put("g".charAt(0), 1);
+		tablaConversion.put("h".charAt(0), 1);
+		tablaConversion.put("i".charAt(0), 1);
+		tablaConversion.put("j".charAt(0), 1);
+		tablaConversion.put("k".charAt(0), 1);
+		tablaConversion.put("l".charAt(0), 1);
+		tablaConversion.put("m".charAt(0), 1);
+		tablaConversion.put("n".charAt(0), 1);
+		tablaConversion.put("o".charAt(0), 1);
+		tablaConversion.put("p".charAt(0), 1);
+		tablaConversion.put("q".charAt(0), 1);
+		tablaConversion.put("r".charAt(0), 1);
+		tablaConversion.put("s".charAt(0), 1);
+		tablaConversion.put("t".charAt(0), 1);
+		tablaConversion.put("u".charAt(0), 1);
+		tablaConversion.put("v".charAt(0), 1);
+		tablaConversion.put("w".charAt(0), 1);
+		tablaConversion.put("x".charAt(0), 1);
+		tablaConversion.put("y".charAt(0), 1);
+		tablaConversion.put("z".charAt(0), 1);
 		
-		tablaConversion.put("/".charAt(0), 2);
+		tablaConversion.put("0".charAt(0), 2);
+		tablaConversion.put("1".charAt(0), 2);
+		tablaConversion.put("2".charAt(0), 2);
+		tablaConversion.put("3".charAt(0), 2);
+		tablaConversion.put("4".charAt(0), 2);
+		tablaConversion.put("5".charAt(0), 2);
+		tablaConversion.put("6".charAt(0), 2);
+		tablaConversion.put("7".charAt(0), 2);
+		tablaConversion.put("8".charAt(0), 2);
+		tablaConversion.put("9".charAt(0), 2);
 		
-		tablaConversion.put("_".charAt(0), 3);
+		tablaConversion.put("@".charAt(0), 3);
 		
-		tablaConversion.put("-".charAt(0), 4);
+		tablaConversion.put('\n', 4); //salto de linea
 		
-		tablaConversion.put("#".charAt(0), 5);
+		tablaConversion.put('\r', 4); //retorno de carro
 		
-		tablaConversion.put("=".charAt(0), 9);
+		tablaConversion.put("<".charAt(0), 5);
 		
-		tablaConversion.put(":".charAt(0), 10);
+		tablaConversion.put(">".charAt(0), 6);
 		
-		tablaConversion.put("<".charAt(0), 11);
+		tablaConversion.put("=".charAt(0), 7);
 		
-		tablaConversion.put(">".charAt(0), 12);
+		tablaConversion.put("+".charAt(0), 8);
 		
-		tablaConversion.put("!".charAt(0), 13);
+		tablaConversion.put("-".charAt(0), 9);
 		
-		tablaConversion.put("{".charAt(0), 14);
+		tablaConversion.put("/".charAt(0), 10);
 		
-		tablaConversion.put("}".charAt(0), 23);
+		tablaConversion.put("(".charAt(0), 11);
 		
-		tablaConversion.put("(".charAt(0), 21);
+		tablaConversion.put(")".charAt(0), 12);
 		
-		tablaConversion.put(")".charAt(0), 22);
+		tablaConversion.put(",".charAt(0), 13);
 		
-		tablaConversion.put(",".charAt(0), 15);
+		tablaConversion.put(";".charAt(0), 14);
 		
-		tablaConversion.put(";".charAt(0), 16);
+		tablaConversion.put("'".charAt(0), 15);
 		
-		tablaConversion.put("'".charAt(0), 17);
+		tablaConversion.put("i".charAt(0), 16); //esta repetidos dentro del grupo "c"
 		
-		tablaConversion.put(" ".charAt(0), 18);
+		tablaConversion.put("u".charAt(0), 17); //esta repetidos dentro del grupo "c"
 		
-		tablaConversion.put('\t', 18);
+		tablaConversion.put("l".charAt(0), 18); //esta repetidos dentro del grupo "c"
 		
-		tablaConversion.put('\n', 19);	
+		tablaConversion.put("_".charAt(0), 19);
 		
-		tablaConversion.put('\r', 19);
-			
+		//no estan en la matriz, se crea nueva columna?
+		//tablaConversion.put('\t', 4); // tabulacion
+		//tablaConversion.put("#".charAt(0), 20);
+		//tablaConversion.put(":".charAt(0), 20);
+		//tablaConversion.put("!".charAt(0), 20);
+		//tablaConversion.put("{".charAt(0), 20);
+		//tablaConversion.put("}".charAt(0), 20);
+		//tablaConversion.put("'".charAt(0), 20);
+		//tablaConversion.put(" ".charAt(0), 20);
 	}
 
 }
