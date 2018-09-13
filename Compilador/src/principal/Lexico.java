@@ -51,14 +51,16 @@ public class Lexico {
 				}
 				
 				//si no esta en la tabla el get falla y da nullpointerexeption
-				if (tablaSimbolos.containsKey(tokenString)) { // si el caracter esta devuelve el dato 
+				if (tablaConversion.containsKey(caracterActual)) { // si el caracter esta devuelve el dato 
 					columna = tablaConversion.get(caracterActual); // devuelve la columna a la que pertenece el caracter leido en la matriz de estados
 				
 					// las 2 lineas siguientes se pueden hacer juntas pero me parece mas entendible separadas
 					as = matrizAS[fila][columna];	// En as se asigna la accion semantica que se encuentra en la posicion de la matriz
 					
 					//tokenString => se va armando el token en esta variable 
-					tokenString = as.ejecutar(); // pasar el caracter actual, el tokenString y lo que sea necesario y que devuelva el tokenString con la agregacion realizada del caracter 
+					//tokenString = as.ejecutar(); // pasar el caracter actual, el tokenString y lo que sea necesario y que devuelva el tokenString con la agregacion realizada del caracter 
+					as.ejecutar();
+					//cadenaFinal = cadenaFinal + as.caracterf
 					
 					//Recupero de la matriz de estados el estado siguiente del automata (en la matriz es la fila) 
 					fila = matrizEstados[fila][columna];
@@ -74,13 +76,14 @@ public class Lexico {
 			e.printStackTrace();
 		}
 		
-		// Verifica si el token ya esta en la tabla
-		if (!tablaSimbolos.containsKey(tokenString)) { 
-            //No esta y lo agrego
-			tablaSimbolos.put(tokenString, "ver que poner aca"); // guardo el tokenString con sus datos adicionales
-        }
+		// Verifica si el token ya esta en la tabla: IRIA DENTRO DE LA ACCION SEMANTICA.
+		/*		if (!tablaSimbolos.containsKey(tokenString)) { 
+		            //No esta y lo agrego
+					tablaSimbolos.put(tokenString, "ver que poner aca"); // guardo el tokenString con sus datos adicionales
+		        }
+		*/		
 		
-		//con el tokenString armo el tokenId y lo devuelvo
+		//con el tokenString armo el tokenId y lo devuelvo: AHORA DEVUELVE UN OBJETO SETEANDOLES LOS ATRIBUTOS
 		return tokenId;
 	}
 

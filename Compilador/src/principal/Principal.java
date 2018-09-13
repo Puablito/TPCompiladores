@@ -75,15 +75,13 @@ public class Principal extends JFrame {
 					JOptionPane.showMessageDialog(null, "Debe ingresar una ruta de archivo!");
 				}else{
 					// Abro el archivo que contiene el c�digo fuente
-					File file = new File (cPath);
+					File file = new File (txtPath.getText());
 					try {
 						//fr = new FileReader(file)
 						//FileReader fr = new FileReader(cPath); comento para pruebas
-						FileReader fr = new FileReader("C:\\cf.txt");
+						FileReader fr = new FileReader(file);
 						bf = new BufferedReader (fr);
 					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
 						e.printStackTrace();
 					} catch (Exception e) {
 						e.printStackTrace();
