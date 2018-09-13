@@ -9,11 +9,19 @@ public class Token {
 		this.id=nro;
 	}
 	
-	public void getDato(){
+	public void setDato(String dato) {
+		this.dato = dato;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDato(){
 		return dato;
 	}
 	
-	public void getId(){
+	public int getId(){
 		return id;
 	}
 }
