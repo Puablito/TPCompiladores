@@ -40,7 +40,7 @@ public class Lexico {
 		
 		columna = 0;
 		codigoCaracterActual = 0;
-		tokenString="";
+		//tokenString="";
 		try {
 			while (fila != -1){ 								// Fin del token = -1
 				codigoFuente.mark(1); 							// marco el archivo para poder devolver el caracter si es necesario
@@ -50,17 +50,16 @@ public class Lexico {
 					cantidadLineas = cantidadLineas+1;
 				}
 				
-				//si no esta en la tabla el get falla y da nullpointerexeption
-				if (tablaConversion.containsKey(caracterActual)) { // si el caracter esta devuelve el dato 
+				
+				if (tablaConversion.containsKey(caracterActual)) { // si el caracter esta devuelve booleano
 					columna = tablaConversion.get(caracterActual); // devuelve la columna a la que pertenece el caracter leido en la matriz de estados
 				
-					// las 2 lineas siguientes se pueden hacer juntas pero me parece mas entendible separadas
 					as = matrizAS[fila][columna];	// En as se asigna la accion semantica que se encuentra en la posicion de la matriz
 					
 					//tokenString => se va armando el token en esta variable 
-					//tokenString = as.ejecutar(); // pasar el caracter actual, el tokenString y lo que sea necesario y que devuelva el tokenString con la agregacion realizada del caracter 
-					as.ejecutar();
-					//cadenaFinal = cadenaFinal + as.caracterf
+					// pasar el caracter actual, el tokenString y lo que sea necesario y que devuelva el tokenString con la agregacion realizada del caracter 
+					as.ejecutar(caracterActual, tokenString);
+					tokenString = as.getTokenString();
 					
 					//Recupero de la matriz de estados el estado siguiente del automata (en la matriz es la fila) 
 					fila = matrizEstados[fila][columna];
