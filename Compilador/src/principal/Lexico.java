@@ -105,6 +105,7 @@ public class Lexico {
 	public void inicializarMatrizEstados() {
 		 // Final = -1
 		 // Error = -2
+		//test
 		 matrizEstados = new int[][] {	/* 20 Columnas*/
 		/* fila 0*/				{ 2, 1, 9, 1, 0, 5, 6, 6,-1, 3,-1,-1,-1,-1,-1, 7, 1, 1, 1,-2},
 		/* fila 1*/				{-1, 1, 1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 1, 1,-1},
