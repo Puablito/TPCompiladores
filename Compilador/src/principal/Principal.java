@@ -73,7 +73,7 @@ public class Principal extends JFrame {
 				String cPath = txtPath.getText();
 				if (cPath.isEmpty()){
 					JOptionPane.showMessageDialog(null, "Debe ingresar una ruta de archivo!");
-				}else {
+				}else{
 					// Abro el archivo que contiene el c�digo fuente
 					File file = new File (cPath);
 					try {

@@ -104,7 +104,7 @@ public class Lexico {
 	public void inicializarMatrizEstados() {
 		 // Final = -1
 		 // Error = -2
-		int matrizEstados[][] = {	/* 20 Columnas*/
+		 matrizEstados = new int[][] {	/* 20 Columnas*/
 		/* fila 0*/				{ 2, 1, 9, 1, 0, 5, 6, 6,-1, 3,-1,-1,-1,-1,-1, 7, 1, 1, 1,-2},
 		/* fila 1*/				{-1, 1, 1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 1, 1,-1},
 		/* fila 2*/				{ 2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1},
@@ -200,6 +200,10 @@ public class Lexico {
 		
 		tablaConversion.put('\r', 4); //retorno de carro
 		
+		tablaConversion.put('\t', 4); // tabulacion
+		
+		tablaConversion.put(" ".charAt(0), 4);
+		
 		tablaConversion.put("<".charAt(0), 5);
 		
 		tablaConversion.put(">".charAt(0), 6);
@@ -231,14 +235,13 @@ public class Lexico {
 		tablaConversion.put("_".charAt(0), 19);
 		
 		//no estan en la matriz, se crea nueva columna?
-		//tablaConversion.put('\t', 4); // tabulacion
 		//tablaConversion.put("#".charAt(0), 20);
 		//tablaConversion.put(":".charAt(0), 20);
 		//tablaConversion.put("!".charAt(0), 20);
 		//tablaConversion.put("{".charAt(0), 20);
 		//tablaConversion.put("}".charAt(0), 20);
-		//tablaConversion.put("'".charAt(0), 20);
-		//tablaConversion.put(" ".charAt(0), 20);
+		
+		
 	}
 
 }
