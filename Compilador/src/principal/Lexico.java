@@ -76,6 +76,11 @@ public class Lexico {
 			e.printStackTrace();
 		}
 		
+		public void agregaalacadena(String tokenString, Character caracterActual) {
+			tokenString = tokenString + caracterActual;
+			return tokenString;
+		}
+		
 		// Verifica si el token ya esta en la tabla: IRIA DENTRO DE LA ACCION SEMANTICA.
 		/*		if (!tablaSimbolos.containsKey(tokenString)) { 
 		            //No esta y lo agrego
@@ -257,8 +262,7 @@ public class Lexico {
 		//tablaConversion.put("!".charAt(0), 20);
 		//tablaConversion.put("{".charAt(0), 20);
 		//tablaConversion.put("}".charAt(0), 20);
-		
-		
-	}
+		}
 
+	
 }
