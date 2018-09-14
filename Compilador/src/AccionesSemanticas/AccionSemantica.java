@@ -9,7 +9,7 @@ public abstract class AccionSemantica {
 	
 	protected int tokenInt;
 	protected String tokenString;
-	protected boolean devuelveChar;
+	protected boolean devuelveChar= false;
 	protected Token token;
 	protected boolean darAltaTS=false;
 	protected Hashtable<String,Integer> palabrasReservadas = new Hashtable<String,Integer>();
@@ -58,6 +58,23 @@ public abstract class AccionSemantica {
 		palabrasReservadas.put("DO",267);
 		palabrasReservadas.put("ID",268);
 		palabrasReservadas.put("CTE",269);
+		palabrasReservadas.put("-",270);
+		palabrasReservadas.put("<",271);
+		palabrasReservadas.put("<=",272);
+		palabrasReservadas.put("<>",273);
+		palabrasReservadas.put("==",274);
+		palabrasReservadas.put(">=",275);
+		palabrasReservadas.put(">",276);
+		palabrasReservadas.put("=",277);
+		palabrasReservadas.put("+",278);
+		palabrasReservadas.put("/",279);
+		palabrasReservadas.put("(",280);
+		palabrasReservadas.put(")",281);
+		palabrasReservadas.put(",",282);
+		palabrasReservadas.put(";",283);
+		palabrasReservadas.put("ENO",284);
+		palabrasReservadas.put("ELA",285);
+		
 		
 	}
 }

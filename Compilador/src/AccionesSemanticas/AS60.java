@@ -2,7 +2,7 @@ package AccionesSemanticas;
 
 import principal.Token;
 
-public class AS90 extends AccionSemantica {
+public class AS60 extends AccionSemantica {
 
 	public void ejecutar(Character carActual, String tokenString, int cantLin){
 		
@@ -18,3 +18,4 @@ public class AS90 extends AccionSemantica {
 	}
 	
 }
+

@@ -2,10 +2,11 @@ package AccionesSemanticas;
 
 import principal.Token;
 
-public class AS90 extends AccionSemantica {
+public class AS80 extends AccionSemantica {
 
 	public void ejecutar(Character carActual, String tokenString, int cantLin){
 		
+		devuelveChar = true;
 		//Alta en TS
 		darAltaTS = true;
 		this.tokenString = tokenString;

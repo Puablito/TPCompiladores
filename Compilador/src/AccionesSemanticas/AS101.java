@@ -1,9 +1,9 @@
 package AccionesSemanticas;
 
-public class AS120 extends AccionSemantica {
-	//Agrega el caracter u, parte del sufijo de enteros largos	
+public class AS101 extends AccionSemantica {
+
 	public void ejecutar(Character carActual, String tokenString, int cantLin ){ 
-		this.tokenString = tokenString ;
+		this.tokenString = "";
 		devuelveChar = false;
 	}
 

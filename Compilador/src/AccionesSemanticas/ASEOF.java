@@ -18,8 +18,8 @@ public class ASEOF  extends AccionSemantica {
    
         	//Validar resto de opciones
         	token = new Token(0, tokenString);
-        	System.out.println("Error en linea "+ cantLin +" Identificador: "+ tokenString);
-   
+        	//System.out.println("Error en linea "+ cantLin +" Identificador: "+ tokenString);
+        	System.out.println("Fin de Archivo");
         }
     
 	}	
