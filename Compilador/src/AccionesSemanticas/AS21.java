@@ -12,7 +12,7 @@ public class AS21 extends AccionSemantica {
 		inicializaPalabrasReservadas();
 	}
 	
-	public void ejecutar(Character carActual, String tokenString ){
+	public void ejecutar(Character carActual, String tokenString, int cantLin){
 		devuelveChar = true;
 		
 		if (palabrasReservadas.containsKey(tokenString)) { 

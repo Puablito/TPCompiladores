@@ -79,7 +79,7 @@ public class Lexico {
 				
 				//tokenString => se va armando el token en esta variable 
 				// pasar el caracter actual, el tokenString y lo que sea necesario y que devuelva el tokenString con la agregacion realizada del caracter 
-				as.ejecutar(caracterActual, tokenString);
+				as.ejecutar(caracterActual, tokenString, cantidadLineas);
 				tokenString = as.getTokenString();
 				
 				devuelveChar = as.isDevuelveChar();

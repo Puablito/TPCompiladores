@@ -2,9 +2,14 @@ package AccionesSemanticas;
 
 public class AS11 extends AccionSemantica {
 	
-	public void ejecutar(Character carActual, String tokenString ){
+	public void ejecutar(Character carActual, String tokenString, int cantLin){
+		
+		if (tokenString.length()>15) {
+			
+		}
+		
 		tokenString = Character.toString(carActual);
-		devuelveChar = false;
+		devuelveChar = true;
 	}
 
 }

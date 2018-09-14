@@ -26,7 +26,7 @@ public abstract class AccionSemantica {
 		this.tokenString = tokenString;
 	}
 	
-	public void ejecutar(Character carActual, String tokenString ){}
+	public void ejecutar(Character carActual, String tokenString, int cantLin){}
 	
 	public Token armaToken() {
 		return token;

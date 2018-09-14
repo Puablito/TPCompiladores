@@ -12,7 +12,7 @@ private Hashtable<String,Integer> palabrasReservadas = new Hashtable<String,Inte
 		inicializaPalabrasReservadas();
 	}
 	
-	public void ejecutar(Character carActual, String tokenString ){
+	public void ejecutar(Character carActual, String tokenString, int cantLin){
 		devuelveChar = false;
 		
 		if (palabrasReservadas.containsKey(tokenString)) { 
