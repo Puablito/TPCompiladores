@@ -1,7 +1,7 @@
 package AccionesSemanticas;
 
-public class AS32 extends AccionSemantica {
-//Consume salto de linea o retorno de carro, que es cuando finalizan los comentarios porque son de una sola linea, como este, por ejemplo	
+public class AS120 extends AccionSemantica {
+	//Agrega el caracter u, parte del sufijo de enteros largos	
 	public void ejecutar(Character carActual, String tokenString, int cantLin ){ 
 		this.tokenString = tokenString + Character.toString(carActual);
 		devuelveChar = false;
