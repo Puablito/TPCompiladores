@@ -34,7 +34,7 @@ public class Lexico {
 
 	private AccionSemantica matrizAS[][]; // Cada acci�n tiene una Accion Semantica dentro
 	private AccionSemantica as;
-	Hashtable<String,String> tablaSimbolos = new Hashtable<String,String>(); //no se cuantos campos tendr� ni el tipo de datos, genericamente la arme con 2 campos string 
+	Hashtable<String,Integer> tablaSimbolos = new Hashtable<String,Integer>(); //no se cuantos campos tendr� ni el tipo de datos, genericamente la arme con 2 campos string 
 	Hashtable<Character,Integer> tablaConversion = new Hashtable<Character,Integer>(); // para saber a que columna de la matriz de estado pertenece cada caracter
 	BufferedReader codigoFuente;
 	
@@ -100,20 +100,14 @@ public class Lexico {
 		}
 		
 		token = as.armaToken();
-		if (token.getId() == 0) {
-			System.out.println("Error en linea "+ cantidadLineas+" Identificador: "+ token.getDato());
-		}
+		
+		//Alta TS
+		if (as.isDarAltaTS() && !tablaSimbolos.containsKey(tokenString)) { 
+			tablaSimbolos.put(tokenString, token.getId());
+        }
 		
 		// Devuelve un objeto tipo token
-		return token; 
-		
-		// Verifica si el token ya esta en la tabla: IRIA DENTRO DE LA ACCION SEMANTICA.
-		/*		if (!tablaSimbolos.containsKey(tokenString)) { 
-		            //No esta y lo agrego
-					tablaSimbolos.put(tokenString, "ver que poner aca"); // guardo el tokenString con sus datos adicionales
-		        }
-		*/		
-		
+		return token; 	
 	}
 
 // LO COMENTO PORQUE ME MOLESTAN LOS ERRORES, PORQUE NO EXISTEN LAS CLASES AS (de hincha bolas :))	- Pablo
@@ -157,9 +151,13 @@ public class Lexico {
 	
 	
 	public void mostrarListaSimbolos(){ //Lista las claves de la tabla de simbolos
-		  System.out.println( "Simbolos: " + tablaSimbolos.keys() );
+		Enumeration<String> e = tablaSimbolos.keys();
+		Object s;
+		while( e.hasMoreElements() ){
+		 s = e.nextElement();
+		 System.out.println( "Simbolo: " + s );
+		}
 	}
-
 
 	private void inicializarListaConversion(){
 		//Campo1: caracter
