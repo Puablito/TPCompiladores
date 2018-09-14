@@ -15,36 +15,41 @@ public class Lexico {
 	private int codigoCaracterActual;
 	private int cantidadLineas=1;
 	private int tokenId=0;
-	private int fila=0;
+	private int fila;
 	private int columna;
 	
 	private String tokenString;
 	private Character caracterActual;
+	private boolean devuelveChar;
+	private boolean isFinArchivo=false;
 	
 	private AccionSemantica matrizAS[][]; // Cada acci�n tiene una Accion Semantica dentro
 	private AccionSemantica as;
 	Hashtable<String,String> tablaSimbolos = new Hashtable<String,String>(); //no se cuantos campos tendr� ni el tipo de datos, genericamente la arme con 2 campos string 
 	Hashtable<Character,Integer> tablaConversion = new Hashtable<Character,Integer>(); // para saber a que columna de la matriz de estado pertenece cada caracter
-	Hashtable<String,Integer> palabrasReservadas = new Hashtable<String,Integer>();
 	BufferedReader codigoFuente;
 	
 	// Contructor - Se usa en "Principal.java"
 	public Lexico(BufferedReader fileR) {
 		this.codigoFuente = fileR;
-//		inicializarMatrizAS(); descomentar cuando se descomente el metodo asi no da error
+		inicializarMatrizEstados();
+		inicializarMatrizAS();
 		inicializarListaConversion();
-		inicializaPalabrasReservadas();
 	}
 	
 	public Token getToken() {
-		
+		Token token;
 		columna = 0;
 		codigoCaracterActual = 0;
+		fila = 0;
 		//tokenString="";
 		try {
 			while (fila != -1){ 								// Fin del token = -1
 				codigoFuente.mark(1); 							// marco el archivo para poder devolver el caracter si es necesario
 				codigoCaracterActual = codigoFuente.read(); 	// leo codigo ascii del caracter
+				if (codigoCaracterActual == -1) {
+					isFinArchivo = true;
+				}
 				caracterActual = (char) codigoCaracterActual; 	// se castea para recuperar el caracter del codigo ascii leido
 				if (caracterActual.equals('\n')){
 					cantidadLineas = cantidadLineas+1;
@@ -61,6 +66,11 @@ public class Lexico {
 					as.ejecutar(caracterActual, tokenString);
 					tokenString = as.getTokenString();
 					
+					devuelveChar = as.isDevuelveChar();
+					if (devuelveChar) {
+						codigoFuente.reset(); // vuelve a la ultima marca realizada en el archivo
+					}
+					
 					//Recupero de la matriz de estados el estado siguiente del automata (en la matriz es la fila) 
 					fila = matrizEstados[fila][columna];
 					
@@ -68,13 +78,24 @@ public class Lexico {
 						// realiza gestion de errores
 					}
 				}else {
-					// ver que hacemos cuando viene un caracter no valido para nuestro lenguaje
+					fila = -1;// ver que hacemos cuando viene un caracter no valido para nuestro lenguaje
 				}
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
+		if (isFinArchivo) {
+			token = new Token(-1, "");
+		}else {	 
+			token = as.armaToken();
+			if (token.getId() == 0) {
+				System.out.println("Error en linea "+ cantidadLineas+" Identificador: "+ token.getDato());
+			}
+		}
+		
+			// Devuelve un objeto tipo token
+		return token; 
 		
 		// Verifica si el token ya esta en la tabla: IRIA DENTRO DE LA ACCION SEMANTICA.
 		/*		if (!tablaSimbolos.containsKey(tokenString)) { 
@@ -83,16 +104,14 @@ public class Lexico {
 		        }
 		*/		
 		
-		//con el tokenString armo el tokenId y lo devuelvo: AHORA DEVUELVE UN OBJETO SETEANDOLES LOS ATRIBUTOS
-		return tokenId;
 	}
 
 // LO COMENTO PORQUE ME MOLESTAN LOS ERRORES, PORQUE NO EXISTEN LAS CLASES AS (de hincha bolas :))	- Pablo
-//	public void inicializarMatrizAS() {
-//		AccionSemantica matrizAS[][] = 	{  /*Col  0*/  /*Col  1*/  /*Col  2*/  /*Col  3*/  /*Col  4*/  /*Col  5*/  /*Col  6*/  /*Col  7*/  /*Col  8*/  /*Col  9*/  /*Col 10*/  /*Col 11*/  /*Col 12*/  /*Col 13*/  /*Col 14*/  /*Col 15*/  /*Col 16*/  /*Col 17*/  /*Col 18*/  /*Col 19*/
-//		/* fila  0*/         			{  new AS1(),  new AS1(),  new AS1(),  new AS1(),  new AS0(),  new AS1(),  new AS1(),  new AS1(), new AS90(),  new AS1(), new AS90(), new AS90(), new AS90(), new AS90(), new AS90(),  new AS1(),  new AS1(),  new AS1(),  new AS1(),new ASERR()},
-//		/* fila  1*/					{ new AS11(), new AS10(), new AS10(), new AS10(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS10(), new AS10(), new AS10(), new AS11()},
-//		/* fila  2*/					{ new AS20(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21()},
+	public void inicializarMatrizAS() {
+		matrizAS = new AccionSemantica[][] 	{  /*Col  0*/  /*Col  1*/  /*Col  2*/  /*Col  3*/  /*Col  4*/  /*Col  5*/  /*Col  6*/  /*Col  7*/  /*Col  8*/  /*Col  9*/  /*Col 10*/  /*Col 11*/  /*Col 12*/  /*Col 13*/  /*Col 14*/  /*Col 15*/  /*Col 16*/  /*Col 17*/  /*Col 18*/  /*Col 19*/
+		/* fila  0*/         			{  new AS1(),  new AS1(),  new AS1(),  new AS1(),  new AS0(),  new AS1(),  new AS1(),  new AS1(), new AS90(),  new AS1(), new AS90(), new AS90(), new AS90(), new AS90(), new AS90(),  new AS1(),  new AS1(),  new AS1(),  new AS1(),new ASERR()},
+		/* fila  1*/					{ new AS11(), new AS10(), new AS10(), new AS10(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS10(), new AS10(), new AS10(), new AS11()},
+		/* fila  2*/					{ new AS20(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21()},
 //		/* fila  3*/					{ new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS30(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40()},
 //		/* fila  4*/					{ new AS31(), new AS31(), new AS31(), new AS31(), new AS32(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31()},
 //		/* fila  5*/					{ new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS60(), new AS60(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50()},
@@ -102,8 +121,8 @@ public class Lexico {
 //		/* fila  9*/					{new ASERR(),new ASERR(),new AS110(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS111()},
 //		/* fila 10*/					{new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS112(),new AS120(),new ASERR(),new ASERR()},
 //		/* fila 11*/					{new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS121(),new ASERR()},
-//									   	};
-//	}
+									   	};
+	}
 	
 	public void inicializarMatrizEstados() {
 		 // Final = -1
@@ -131,18 +150,7 @@ public class Lexico {
 		  System.out.println( "Simbolos: " + tablaSimbolos.keys() );
 	}
 
-	private void inicializaPalabrasReservadas() {
-		palabrasReservadas.put("IF",257);
-		palabrasReservadas.put("THEN",258);
-		palabrasReservadas.put("ELSE",259);
-		palabrasReservadas.put("ENDIF",260);
-		palabrasReservadas.put("PRINT",261);
-		palabrasReservadas.put("BEGIN",262);
-		palabrasReservadas.put("END",263);
-		palabrasReservadas.put("IDENTIFICADOR",264);
-		palabrasReservadas.put("CONSTANTE",265);
-		
-	}
+
 	private void inicializarListaConversion(){
 		//Campo1: caracter
 		//Campo2: columna a la que pertenece en la matriz de estados 

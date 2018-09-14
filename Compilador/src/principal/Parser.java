@@ -9,12 +9,11 @@ public class Parser {
 		this.aLexico = analizadorLexico;
 		
 		token = aLexico.getToken();
-		while (token != null){ // recorre hasta que no haya mas tokens
-			System.out.println(token.getId());
-			System.out.println(token.getDato());
+		while (token.getId() != -1){ // recorre hasta que no haya mas tokens
+			System.out.println(token.getId() +","+  token.getDato());
 			token = aLexico.getToken();
 		}
-	aLexico.mostrarListaSimbolos();
+	//aLexico.mostrarListaSimbolos();
 	}
 
 }
