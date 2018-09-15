@@ -74,7 +74,7 @@ public abstract class AccionSemantica {
 		palabrasReservadas.put(";",283);
 		palabrasReservadas.put("ENO",284);
 		palabrasReservadas.put("ELA",285);
-		
+		palabrasReservadas.put("CAD",286);
 		
 	}
 }
