@@ -11,7 +11,9 @@ public class Parser {
 		
 		token = aLexico.getToken();
 		while (!aLexico.isFinArchivo()){ // recorre hasta que no haya mas tokens
-			System.out.println(token.getId() +","+  token.getDato());
+			if (token != null) { 
+				System.out.println(token.getId() +","+  token.getDato());
+			}
 			token = aLexico.getToken();
 		}
 		//System.out.println(token.getId() +","+  token.getDato());

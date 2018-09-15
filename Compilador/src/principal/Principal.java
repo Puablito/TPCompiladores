@@ -93,7 +93,7 @@ public class Principal extends JFrame {
 				}
 			}
 		});
-		btnIniciarParser.setBounds(10, 57, 106, 23);
+		btnIniciarParser.setBounds(10, 57, 176, 23);
 		panel.add(btnIniciarParser);
 	}
 }
