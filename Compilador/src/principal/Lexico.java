@@ -111,19 +111,19 @@ public class Lexico {
 
 // LO COMENTO PORQUE ME MOLESTAN LOS ERRORES, PORQUE NO EXISTEN LAS CLASES AS (de hincha bolas :))	- Pablo
 	public void inicializarMatrizAS() {
-		matrizAS = new AccionSemantica[][] 	{  /*Col  0*/  /*Col  1*/  /*Col  2*/  /*Col  3*/  /*Col  4*/  /*Col  5*/  /*Col  6*/  /*Col  7*/  /*Col  8*/  /*Col  9*/  /*Col 10*/  /*Col 11*/  /*Col 12*/  /*Col 13*/  /*Col 14*/  /*Col 15*/  /*Col 16*/  /*Col 17*/  /*Col 18*/  /*Col 19*/
-		/* fila  0*/         			{  new AS1(),  new AS1(),  new AS1(),  new AS1(),  new AS0(),  new AS1(),  new AS1(),  new AS1(), new AS90(),  new AS1(), new AS90(), new AS90(), new AS90(), new AS90(), new AS90(),  new AS1(),  new AS1(),  new AS1(),  new AS1(),new ASERR(), new ASEOF(), new ASERR()},
-		/* fila  1*/					{ new AS11(), new AS10(), new AS10(), new AS10(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS10(), new AS10(), new AS10(), new AS11(), new ASEOF(),new ASERR()},
-		/* fila  2*/					{ new AS20(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new ASEOF(), new ASERR()},
-		/* fila  3*/					{ new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS30(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new ASEOF(), new ASERR()},
-		/* fila  4*/					{ new AS31(), new AS31(), new AS31(), new AS31(), new AS32(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new ASEOF(), new ASERR()},
-		/* fila  5*/					{ new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS60(), new AS60(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new ASEOF(), new ASERR()},
-		/* fila  6*/					{ new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS70(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new ASEOF(), new ASERR()},
-		/* fila  7*/					{new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS102(),new AS100(),new AS100(),new AS100(),new AS100(), new ASEOF(), new ASERR()},
-		/* fila  8*/         			{new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS102(),new AS101(),new AS101(),new AS101(),new AS101(), new ASEOF(), new ASERR()},
-		/* fila  9*/					{new ASERR(),new ASERR(),new AS110(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS111(), new ASEOF(), new ASERR()},
-		/* fila 10*/					{new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS112(),new AS120(),new ASERR(),new ASERR(), new ASEOF(), new ASERR()},
-		/* fila 11*/					{new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS121(),new ASERR(), new ASEOF(), new ASERR()},
+		matrizAS = new AccionSemantica[][]{/*Col  0*/  /*Col  1*/  /*Col  2*/  /*Col  3*/ /*Col  4*/  /*Col  5*/  /*Col  6*/  /*Col  7*/  /*Col  8*/  /*Col  9*/  /*Col 10*/  /*Col 11*/  /*Col 12*/  /*Col 13*/  /*Col 14*/  /*Col 15*/  /*Col 16*/  /*Col 17*/  /*Col 18*/  /*Col 19*/  /*Col 20*/  /*Col 21*/    /*Col 22*/
+		/* fila  0*/         			{  new AS1(),  new AS1(),  new AS1(),  new AS1(),  new AS0(),  new AS1(),  new AS1(),  new AS1(), new AS90(),  new AS1(), new AS90(), new AS90(), new AS90(), new AS90(), new AS90(),  new AS1(),  new AS1(),  new AS1(),  new AS1(),new ASERR(), new ASEOF(), new ASERR(), new AS0()},
+		/* fila  1*/					{ new AS11(), new AS10(), new AS10(), new AS10(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS11(), new AS10(), new AS10(), new AS10(), new AS11(), new ASEOF(), new ASERR(), new ASEOF()},
+		/* fila  2*/					{ new AS20(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new AS21(), new ASEOF(), new ASERR(), new ASEOF()},
+		/* fila  3*/					{ new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS30(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new AS40(), new ASEOF(), new ASERR(), new ASEOF()},
+		/* fila  4*/					{ new AS31(), new AS31(), new AS31(), new AS31(), new AS32(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new AS31(), new ASEOF(),  new AS31(),  new AS31()},
+		/* fila  5*/					{ new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS60(), new AS60(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new AS50(), new ASEOF(), new ASERR(), new ASEOF()},
+		/* fila  6*/					{ new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS70(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new AS80(), new ASEOF(), new ASERR(), new ASEOF()},
+		/* fila  7*/					{new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS100(),new AS102(),new AS100(),new AS100(),new AS100(),new AS100(), new ASEOF(), new AS100(), new AS100()},
+		/* fila  8*/         			{new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS101(),new AS102(),new AS101(),new AS101(),new AS101(),new AS101(), new ASEOF(), new AS101(), new AS101()},
+		/* fila  9*/					{new ASERR(),new ASERR(),new AS110(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS111(), new ASEOF(), new ASERR(), new ASERR()},
+		/* fila 10*/					{new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS112(),new AS120(),new ASERR(),new ASERR(), new ASEOF(), new ASERR(), new ASERR()},
+		/* fila 11*/					{new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new ASERR(),new AS121(),new ASERR(), new ASEOF(), new ASERR(), new ASERR()},
 									   	};
 	}
 	
@@ -132,18 +132,18 @@ public class Lexico {
 		 // Error = -2
 		//test
 		 matrizEstados = new int[][] {	/* 20 Columnas*/
-		/* fila 0*/				{ 2, 1, 9, 1, 0, 5, 6, 6,-1, 3,-1,-1,-1,-1,-1, 7, 1, 1, 1,-2, -1,-2},
-		/* fila 1*/				{-1, 1, 1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 1, 1,-1, -1,-2},
-		/* fila 2*/				{ 2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,-2},
-		/* fila 3*/				{-1,-1,-1,-1,-1,-1,-1,-1,-1, 4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,-2},
-		/* fila 4*/				{ 4, 4, 4, 4,-1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, -1,-2},
-		/* fila 5*/				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,-2},
-		/* fila 6*/				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,-2},
-		/* fila 7*/				{ 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,-1, 8, 8, 8, 8, -1,-2},
-		/* fila 8*/				{ 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,-1, 8, 8, 8, 8, -1,-2},
-		/* fila 9*/				{-2,-2, 9,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,10, -1,-2},
-		/* fila 10*/			{-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,11,-2,-2, -1,-2},
-		/* fila 11*/			{-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-2, -1,-2},
+		/* fila 0*/				{ 2, 1, 9, 1, 0, 5, 6, 6,-1, 3,-1,-1,-1,-1,-1, 7, 1, 1, 1,-2, -1,-2, 0},
+		/* fila 1*/				{-1, 1, 1, 1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, 1, 1, 1,-1, -1,-2,-1},
+		/* fila 2*/				{ 2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,-2,-1},
+		/* fila 3*/				{-1,-1,-1,-1,-1,-1,-1,-1,-1, 4,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,-2,-1},
+		/* fila 4*/				{ 4, 4, 4, 4,-1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, -1, 4, 4},
+		/* fila 5*/				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,-2,-1},
+		/* fila 6*/				{-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1, -1,-2,-1},
+		/* fila 7*/				{ 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,-1, 8, 8, 8, 8, -1, 8, 8},
+		/* fila 8*/				{ 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,-1, 8, 8, 8, 8, -1, 8, 8},
+		/* fila 9*/				{-2,-2, 9,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,10, -1,-2,-2},
+		/* fila 10*/			{-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,11,-2,-2, -1,-2,-2},
+		/* fila 11*/			{-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-2,-1,-2, -1,-2,-2},
 								};
 		
 	}
@@ -232,9 +232,9 @@ public class Lexico {
 		
 		tablaConversion.put('\r', 4); //retorno de carro
 		
-		tablaConversion.put('\t', 4); // tabulacion
+		tablaConversion.put('\t', 22); // tabulacion
 		
-		tablaConversion.put(" ".charAt(0), 4);
+		tablaConversion.put(" ".charAt(0), 22);
 		
 		tablaConversion.put("<".charAt(0), 5);
 		
