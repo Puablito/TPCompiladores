@@ -5,11 +5,10 @@ public class AS100 extends AccionSemantica {
 	public void ejecutar(Character carActual, String tokenString, int cantLin ){ 
 		
 		if (carActual.equals('\n') || carActual.equals('\r')){
-			this.tokenString = tokenString;
+			this.tokenString = tokenString +"";
 		}else {
 			this.tokenString = tokenString + Character.toString(carActual);
 		}
-		
 		devuelveChar = false;
 	}
 

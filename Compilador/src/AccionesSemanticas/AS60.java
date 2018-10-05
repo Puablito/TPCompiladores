@@ -8,12 +8,12 @@ public class AS60 extends AccionSemantica {
 		
 		//Alta en TS
 		darAltaTS = true;
-		this.tokenString = tokenString;
+		this.tokenString = tokenString + carActual;
 	
 		inicializaPalabrasReservadas();
-		if (palabrasReservadas.containsKey(tokenString)) { 
-			tokenInt = palabrasReservadas.get(tokenString); // guardo el valor numerico de la palabra reservada
-			token = new Token(tokenInt, tokenString); // arma el token para devolver al parser
+		if (palabrasReservadas.containsKey(this.tokenString)) { 
+			tokenInt = palabrasReservadas.get(this.tokenString); // guardo el valor numerico de la palabra reservada
+			token = new Token(tokenInt,this.tokenString); // arma el token para devolver al parser
 		}
 	}
 	
