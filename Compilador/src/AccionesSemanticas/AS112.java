@@ -7,6 +7,9 @@ public class AS112 extends AccionSemantica {
 	public void ejecutar(Character carActual, String tokenString, int cantLin ){ 
 		
 		boolean aux_rango = Long.parseLong(tokenString)>32768;
+		
+		tokenString = tokenString + "_i";
+		
 		//Valido rango
 		if (aux_rango) {
 			System.out.println("Warning("+cantLin+"): el identificador supera el rango 32768. Se procedera a descartarlo.");

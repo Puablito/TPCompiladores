@@ -17,7 +17,7 @@ public class Parser {
 			token = aLexico.getToken();
 		}
 		//System.out.println(token.getId() +","+  token.getDato());
-	aLexico.mostrarListaSimbolos();
+	//aLexico.mostrarListaSimbolos();
 	}
 
 }

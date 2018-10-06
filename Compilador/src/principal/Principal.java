@@ -16,15 +16,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
-public class Principal extends JFrame {
 
+public class Principal extends JFrame {
+	
 	private JPanel contentPane;
 	private JTextField txtPath;
 	public FileReader fr; 
 	private BufferedReader bf;
-
+	public Hashtable<String,Integer> tablaSimbolos = new Hashtable<String,Integer>(); //no se cuantos campos tendr� ni el tipo de datos, genericamente la arme con 2 campos string 
 	/**
 	 * Launch the application.
 	 */
@@ -40,7 +43,16 @@ public class Principal extends JFrame {
 			}
 		});
 	}
-
+	
+	public void mostrarListaSimbolos(){ //Lista las claves de la tabla de simbolos
+		Enumeration<String> e = tablaSimbolos.keys();
+		Object s;
+		while( e.hasMoreElements() ){
+		 s = e.nextElement();
+		 System.out.println( "Simbolo: " + s );
+		}
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -88,8 +100,9 @@ public class Principal extends JFrame {
 					}
 					
 					// Creo el analizador lexico y se lo paso como parametro al parser
-					Lexico analizadorLexico = new Lexico(bf); 
+					Lexico analizadorLexico = new Lexico(bf, tablaSimbolos); 
 					Parser analizadorSintactico = new Parser(analizadorLexico);
+					mostrarListaSimbolos();
 				}
 			}
 		});

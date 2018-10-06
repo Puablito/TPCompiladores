@@ -13,7 +13,16 @@ public abstract class AccionSemantica {
 	protected Token token;
 	protected boolean darAltaTS=false;
 	protected Hashtable<String,Integer> palabrasReservadas = new Hashtable<String,Integer>();
+	protected String tokenTipo;
 	
+	public String getTokenTipo() {
+		return tokenTipo;
+	}
+
+	public void setTokenTipo(String tokenTipo) {
+		this.tokenTipo = tokenTipo;
+	}
+
 	public boolean isDarAltaTS() {
 		return darAltaTS;
 	}
@@ -42,6 +51,10 @@ public abstract class AccionSemantica {
 	
 	public Token armaToken() {
 		return token;
+	}
+	
+	public void DarAltaTS(String tokenString, int tokenID, Hashtable<String,Integer> tablaSimbolosLex) {
+		tablaSimbolosLex.put(tokenString, tokenID);
 	}
 	
 	protected void inicializaPalabrasReservadas() {

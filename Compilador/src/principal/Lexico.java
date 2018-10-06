@@ -31,16 +31,17 @@ public class Lexico {
 
 	private AccionSemantica matrizAS[][]; // Cada acci�n tiene una Accion Semantica dentro
 	private AccionSemantica as;
-	Hashtable<String,Integer> tablaSimbolos = new Hashtable<String,Integer>(); //no se cuantos campos tendr� ni el tipo de datos, genericamente la arme con 2 campos string 
 	Hashtable<Character,Integer> tablaConversion = new Hashtable<Character,Integer>(); // para saber a que columna de la matriz de estado pertenece cada caracter
 	BufferedReader codigoFuente;
+	Hashtable<String,Integer> tablaSimbolosLex;
 	
 	// Contructor - Se usa en "Principal.java"
-	public Lexico(BufferedReader fileR) {
+	public Lexico(BufferedReader fileR, Hashtable<String,Integer> tablaSimbolos ) {
 		this.codigoFuente = fileR;
 		inicializarMatrizEstados();
 		inicializarMatrizAS();
 		inicializarListaConversion();
+		this.tablaSimbolosLex = tablaSimbolos;
 	}
 	
 	public Token getToken() {
@@ -101,8 +102,9 @@ public class Lexico {
 		token = as.armaToken();
 		
 		//Alta TS
-		if (as.isDarAltaTS() && !tablaSimbolos.containsKey(tokenString)) { 
-			tablaSimbolos.put(tokenString, token.getId());
+		if (as.isDarAltaTS() && !tablaSimbolosLex.containsKey(tokenString)) { 
+			//tablaSimbolos.put(tokenString, token.getId());
+			as.DarAltaTS(tokenString, token.getId(), tablaSimbolosLex);
         }
 		
 		// Devuelve un objeto tipo token
@@ -149,14 +151,6 @@ public class Lexico {
 	}
 	
 	
-	public void mostrarListaSimbolos(){ //Lista las claves de la tabla de simbolos
-		Enumeration<String> e = tablaSimbolos.keys();
-		Object s;
-		while( e.hasMoreElements() ){
-		 s = e.nextElement();
-		 System.out.println( "Simbolo: " + s );
-		}
-	}
 
 	private void inicializarListaConversion(){
 		//Campo1: caracter

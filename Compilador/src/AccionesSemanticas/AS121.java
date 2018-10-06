@@ -8,6 +8,9 @@ public class AS121 extends AccionSemantica {
 		
 		boolean aux_rango = Long.parseLong(tokenString)>4294967295L;
 		//Valido rango
+		
+		tokenString = tokenString + "_ul";
+		
 		if (aux_rango) {
 			System.out.println("Warning("+cantLin+"): el identificador supera el rango 4294967295. Se procedera a descartarlo.");
 			this.tokenString = "";
