@@ -3,6 +3,15 @@ package principal;
 public class Token {
 	private String dato;
 	private int id; 
+	private String tokenTipo = "";
+	
+	public String getTokenTipo() {
+		return tokenTipo;
+	}
+
+	public void setTokenTipo(String tokenTipo) {
+		this.tokenTipo = tokenTipo;
+	}
 	
 	public Token(int nro, String cadena ) {
 		this.dato=cadena;

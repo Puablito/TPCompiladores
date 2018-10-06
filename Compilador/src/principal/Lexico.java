@@ -3,7 +3,7 @@ package principal;
 import java.io.BufferedReader;
 import java.util.Enumeration;
 import java.util.Hashtable;
-
+import java.util.Map;
 
 import AccionesSemanticas.*;
 
@@ -34,14 +34,16 @@ public class Lexico {
 	Hashtable<Character,Integer> tablaConversion = new Hashtable<Character,Integer>(); // para saber a que columna de la matriz de estado pertenece cada caracter
 	BufferedReader codigoFuente;
 	Hashtable<String,Integer> tablaSimbolosLex;
+	Map<String, ValoresTS> tablaSimbolosMapLex;
 	
 	// Contructor - Se usa en "Principal.java"
-	public Lexico(BufferedReader fileR, Hashtable<String,Integer> tablaSimbolos ) {
+	public Lexico(BufferedReader fileR, Hashtable<String,Integer> tablaSimbolos, Map<String, ValoresTS> tablaSimbolosMap) {
 		this.codigoFuente = fileR;
 		inicializarMatrizEstados();
 		inicializarMatrizAS();
 		inicializarListaConversion();
 		this.tablaSimbolosLex = tablaSimbolos;
+		this.tablaSimbolosMapLex = tablaSimbolosMap;
 	}
 	
 	public Token getToken() {
@@ -104,7 +106,7 @@ public class Lexico {
 		//Alta TS
 		if (as.isDarAltaTS() && !tablaSimbolosLex.containsKey(tokenString)) { 
 			//tablaSimbolos.put(tokenString, token.getId());
-			as.DarAltaTS(tokenString, token.getId(), tablaSimbolosLex);
+			as.DarAltaTS(tokenString, token.getId(), token.getTokenTipo(), tablaSimbolosLex, tablaSimbolosMapLex);
         }
 		
 		// Devuelve un objeto tipo token

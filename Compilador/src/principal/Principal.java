@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -17,9 +20,16 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
 
 public class Principal extends JFrame {
 	
@@ -28,6 +38,11 @@ public class Principal extends JFrame {
 	public FileReader fr; 
 	private BufferedReader bf;
 	public Hashtable<String,Integer> tablaSimbolos = new Hashtable<String,Integer>(); //no se cuantos campos tendr� ni el tipo de datos, genericamente la arme con 2 campos string 
+	// HashMap<String, ValoresTS()> tablaSimbolosMap = new HashMap<String, ValoresTS()>;
+	final Map<String, ValoresTS> tablaSimbolosMap = new Hashtable<String, ValoresTS>();
+	final Iterator<ValoresTS> it = tablaSimbolosMap.values().iterator();
+
+	
 	/**
 	 * Launch the application.
 	 */
@@ -53,6 +68,31 @@ public class Principal extends JFrame {
 		}
 	}
 	
+	public void mostrarMapasimbolos() {
+		 System.out.println( "---------------------- Comienzo de Tabla de Simbolos -------------------");
+	
+		 //Collection<ValoresTS> vts = tablaSimbolosMap.values();
+		
+		/* Enumeration<String> e = (Enumeration<String>) tablaSimbolosMap.keySet();
+		 Object s;
+		 while( e.hasMoreElements() ){
+			 s = e.nextElement();
+			 ValoresTS vTS = it.next();
+			 System.out.println( "Simbolo: " + s + ", Tipo: " + vTS.getTokenID() );
+		}
+		*/
+		 
+		 // Obtenemos todas las llaves del mapa.
+        Set<String> mapKeys = tablaSimbolosMap.keySet();
+ 
+        // Recorremos el mapa por sus llaves e imprimimos sus valores.
+        for (String key : mapKeys) {
+            // Obtenemos el value.
+            ValoresTS vTS = tablaSimbolosMap.get(key);
+            System.out.println( "Simbolo: " + key + ", Tipo: " + vTS.getTokenTipo());
+        }
+        
+	}
 	/**
 	 * Create the frame.
 	 */
@@ -100,9 +140,10 @@ public class Principal extends JFrame {
 					}
 					
 					// Creo el analizador lexico y se lo paso como parametro al parser
-					Lexico analizadorLexico = new Lexico(bf, tablaSimbolos); 
+					Lexico analizadorLexico = new Lexico(bf, tablaSimbolos, tablaSimbolosMap); 
 					Parser analizadorSintactico = new Parser(analizadorLexico);
-					mostrarListaSimbolos();
+					//mostrarListaSimbolos();
+					mostrarMapasimbolos();
 				}
 			}
 		});

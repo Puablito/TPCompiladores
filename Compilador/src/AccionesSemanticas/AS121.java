@@ -27,6 +27,7 @@ public class AS121 extends AccionSemantica {
 			if (palabrasReservadas.containsKey("ELA")) { 
 				tokenInt = palabrasReservadas.get("ELA"); // guardo el valor numerico de la palabra reservada
 				token = new Token(tokenInt, tokenString); // arma el token para devolver al parser
+				token.setTokenTipo("ULONG");
 			}
 		}
 		

@@ -27,6 +27,7 @@ public class AS112 extends AccionSemantica {
 			if (palabrasReservadas.containsKey("ENO")) { 
 				tokenInt = palabrasReservadas.get("ENO"); // guardo el valor numerico de la palabra reservada
 				token = new Token(tokenInt, tokenString); // arma el token para devolver al parser
+				token.setTokenTipo("INT");
 			}
 		}
 		
