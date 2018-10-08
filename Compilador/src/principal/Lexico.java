@@ -1,7 +1,6 @@
 package principal;
 
 import java.io.BufferedReader;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -15,20 +14,12 @@ public class Lexico {
 	private int fila;
 	private int columna;
 	
+	private String yylval;
 	private String tokenString;
 	private Character caracterActual;
 	private boolean devuelveChar;
 	private boolean isFinArchivo;
 	
-	public boolean isFinArchivo() {
-		return isFinArchivo;
-	}
-
-	public void setFinArchivo(boolean isFinArchivo) {
-		this.isFinArchivo = isFinArchivo;
-	}
-
-
 	private AccionSemantica matrizAS[][]; // Cada acciï¿½n tiene una Accion Semantica dentro
 	private AccionSemantica as;
 	Hashtable<Character,Integer> tablaConversion = new Hashtable<Character,Integer>(); // para saber a que columna de la matriz de estado pertenece cada caracter
@@ -46,7 +37,16 @@ public class Lexico {
 		this.tablaSimbolosMapLex = tablaSimbolosMap;
 	}
 	
-	public Token getToken() {
+	public boolean isFinArchivo() {
+		return isFinArchivo;
+	}
+
+	public void setFinArchivo(boolean isFinArchivo) {
+		this.isFinArchivo = isFinArchivo;
+	}
+	
+	public int getToken() {
+		int tokenNro;
 		Token token;
 		columna = 0;
 		codigoCaracterActual = 0;
@@ -109,11 +109,24 @@ public class Lexico {
 			as.DarAltaTS(tokenString, token.getId(), token.getTokenTipo(), tablaSimbolosLex, tablaSimbolosMapLex);
         }
 		
-		// Devuelve un objeto tipo token
-		return token; 	
+		tokenNro = token.getId();
+		setyylval(token.getDato());
+		return tokenNro; 	
 	}
 
-// LO COMENTO PORQUE ME MOLESTAN LOS ERRORES, PORQUE NO EXISTEN LAS CLASES AS (de hincha bolas :))	- Pablo
+	public String getyylval() {
+		return yylval;
+	}
+	
+	public void setyylval(String yylval) {
+		this.yylval = yylval;
+	}
+	
+	public int getCantLineas() {
+		return cantidadLineas;
+	}
+	
+// Inicialización de las Matrices
 	public void inicializarMatrizAS() {
 		matrizAS = new AccionSemantica[][]{/*Col  0*/  /*Col  1*/  /*Col  2*/  /*Col  3*/ /*Col  4*/  /*Col  5*/  /*Col  6*/  /*Col  7*/  /*Col  8*/  /*Col  9*/  /*Col 10*/  /*Col 11*/  /*Col 12*/  /*Col 13*/  /*Col 14*/  /*Col 15*/  /*Col 16*/  /*Col 17*/  /*Col 18*/  /*Col 19*/  /*Col 20*/  /*Col 21*/    /*Col 22*/    /*Col 23*/
 		/* fila  0*/         			{  new AS1(),  new AS1(),  new AS1(),  new AS1(),  new AS0(),  new AS1(),  new AS1(),  new AS1(), new AS90(),  new AS1(), new AS90(), new AS90(), new AS90(), new AS90(), new AS90(),  new AS1(),  new AS1(),  new AS1(),  new AS1(),new ASERR(), new ASEOF(), new ASERR(),   new AS0(),  new AS90()},
@@ -151,8 +164,6 @@ public class Lexico {
 								};
 		
 	}
-	
-	
 
 	private void inicializarListaConversion(){
 		//Campo1: caracter

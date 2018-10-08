@@ -6,9 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
-
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -18,21 +15,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import Parser.*;
 
 public class Principal extends JFrame {
 	
+	private Lexico analizadorLexico;
 	private JPanel contentPane;
 	private JTextField txtPath;
 	public FileReader fr; 
@@ -93,6 +86,7 @@ public class Principal extends JFrame {
         }
         
 	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -140,8 +134,10 @@ public class Principal extends JFrame {
 					}
 					
 					// Creo el analizador lexico y se lo paso como parametro al parser
-					Lexico analizadorLexico = new Lexico(bf, tablaSimbolos, tablaSimbolosMap); 
+					analizadorLexico = new Lexico(bf, tablaSimbolos, tablaSimbolosMap); 
+					//ParserNuestro analizadorSintactico = new ParserNuestro(analizadorLexico); //parser del tp1
 					Parser analizadorSintactico = new Parser(analizadorLexico);
+					analizadorSintactico.run();
 					//mostrarListaSimbolos();
 					mostrarMapasimbolos();
 				}
