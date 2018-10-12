@@ -116,12 +116,14 @@ public class Principal extends JFrame {
 			// Acci�n del boton "Iniciar Parser"
 			public void actionPerformed(ActionEvent arg0) {
 				
+				
+				txtPath.setText("c:\\codigo_fuente.txt");
 				String cPath = txtPath.getText();
 				if (cPath.isEmpty()){
 					JOptionPane.showMessageDialog(null, "Debe ingresar una ruta de archivo!");
 				}else{
 					// Abro el archivo que contiene el c�digo fuente
-					File file = new File (txtPath.getText());
+					File file = new File (txtPath.getText());					
 					try {
 						//fr = new FileReader(file)
 						//FileReader fr = new FileReader(cPath); comento para pruebas
