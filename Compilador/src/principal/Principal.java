@@ -117,7 +117,7 @@ public class Principal extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				
-				txtPath.setText("c:\\codigo_fuente.txt");
+				//txtPath.setText("c:\\codigo_fuente.txt");
 				String cPath = txtPath.getText();
 				if (cPath.isEmpty()){
 					JOptionPane.showMessageDialog(null, "Debe ingresar una ruta de archivo!");
