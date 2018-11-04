@@ -2,8 +2,6 @@ package AccionesSemanticas;
 
 import java.util.Hashtable;
 import java.util.Map;
-
-import principal.ParserNuestro;
 import principal.Token;
 import principal.ValoresTS;
 
