@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import Parser.*;
 
+
 public class Principal extends JFrame {
 	
 	private Lexico analizadorLexico;
@@ -34,7 +35,7 @@ public class Principal extends JFrame {
 	// HashMap<String, ValoresTS()> tablaSimbolosMap = new HashMap<String, ValoresTS()>;
 	final Map<String, ValoresTS> tablaSimbolosMap = new Hashtable<String, ValoresTS>();
 	final Iterator<ValoresTS> it = tablaSimbolosMap.values().iterator();
-
+	public Tercetos tercetos;
 	
 	/**
 	 * Launch the application.
@@ -134,7 +135,7 @@ public class Principal extends JFrame {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					
+					Tercetos tercetos= new Tercetos();
 					// Creo el analizador lexico y se lo paso como parametro al parser
 					analizadorLexico = new Lexico(bf, tablaSimbolos, tablaSimbolosMap); 
 					//ParserNuestro analizadorSintactico = new ParserNuestro(analizadorLexico); //parser del tp1
@@ -142,6 +143,7 @@ public class Principal extends JFrame {
 					analizadorSintactico.run();
 					//mostrarListaSimbolos();
 					mostrarMapasimbolos();
+					tercetos.listaTercetos();
 				}
 			}
 		});

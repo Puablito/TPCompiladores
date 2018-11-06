@@ -6,7 +6,7 @@ import java.util.Iterator;
 public class Tercetos {
 	private String[] terceto;
 	private ArrayList<String[]> tercetosListado = new ArrayList<String[]>();
-	
+
 	public Tercetos(){
 		tercetosListado.clear();
 	}
