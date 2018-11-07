@@ -16,7 +16,7 @@
 
 
 
-//#line 2 "LAGRAMATICATP3.Y"
+//#line 2 "g0611.Y"
 	package Parser;
 	import principal.*;
 //#line 20 "Parser.java"
@@ -422,15 +422,16 @@ final static String yyrule[] = {
 "comparador : '='",
 };
 
-//#line 114 "LAGRAMATICATP3.Y"
+//#line 114 "g0611.Y"
 
 static Lexico lexico;
 static Tercetos tercetos;
-public int nt;
+private int nt;
 
-public Parser(Lexico analizadorLexico)
+public Parser(Lexico analizadorLexico, Tercetos tercetos)
 {
 	lexico = analizadorLexico;
+	Parser.tercetos = tercetos;
   //nothing to do
 }
 private void yyerror(String string) {
@@ -447,7 +448,7 @@ private int yylex() {
 	
 	return tokenNro;
 }
-//#line 379 "Parser.java"
+//#line 380 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -602,210 +603,210 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 6:
-//#line 18 "LAGRAMATICATP3.Y"
+//#line 18 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas() + ": error en declaración de identificador");}
 break;
 case 7:
-//#line 21 "LAGRAMATICATP3.Y"
+//#line 21 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": declaración de tipo INT");}
 break;
 case 8:
-//#line 22 "LAGRAMATICATP3.Y"
+//#line 22 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": declaración de tipo ULONG");}
 break;
 case 9:
-//#line 25 "LAGRAMATICATP3.Y"
+//#line 25 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": declaración de identificador "+lexico.getyylval());}
 break;
 case 10:
-//#line 26 "LAGRAMATICATP3.Y"
+//#line 26 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": declaración de identificador "+lexico.getyylval());}
 break;
 case 11:
-//#line 29 "LAGRAMATICATP3.Y"
+//#line 29 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": inicio de IF");}
 break;
 case 13:
-//#line 30 "LAGRAMATICATP3.Y"
+//#line 30 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": inicio de WHILE");}
 break;
 case 15:
-//#line 31 "LAGRAMATICATP3.Y"
+//#line 31 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": sentencia PRINT");}
 break;
 case 19:
-//#line 38 "LAGRAMATICATP3.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": encabezado de IF");}
+//#line 38 "g0611.Y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": encabezado de IF"); nt=tercetos.creaTerceto("BF",val_peek(1).sval,Integer.toString(nt+1)); yyval.sval = "["+nt+"]"; }
 break;
 case 20:
-//#line 39 "LAGRAMATICATP3.Y"
+//#line 39 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera THEN");}
 break;
 case 21:
-//#line 40 "LAGRAMATICATP3.Y"
+//#line 40 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera condicion para evaluar");}
 break;
 case 22:
-//#line 43 "LAGRAMATICATP3.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ELSE");}
+//#line 43 "g0611.Y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ELSE"); nt=tercetos.creaTerceto("BI",yyval.sval,"-"); yyval.sval = "["+nt+"]"; }
 break;
 case 24:
-//#line 44 "LAGRAMATICATP3.Y"
+//#line 44 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": fin if simple");}
 break;
 case 25:
-//#line 45 "LAGRAMATICATP3.Y"
+//#line 45 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ejecucion por verdadero");}
 break;
 case 26:
-//#line 46 "LAGRAMATICATP3.Y"
+//#line 46 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ejecucion por verdadero");}
 break;
 case 27:
-//#line 50 "LAGRAMATICATP3.Y"
+//#line 50 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": fin if doble");}
 break;
 case 28:
-//#line 51 "LAGRAMATICATP3.Y"
+//#line 51 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ejecucion por falso");}
 break;
 case 29:
-//#line 54 "LAGRAMATICATP3.Y"
+//#line 54 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": finaliza un ciclo WHILE");}
 break;
 case 30:
-//#line 57 "LAGRAMATICATP3.Y"
+//#line 57 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": encabezado de WHILE");}
 break;
 case 31:
-//#line 58 "LAGRAMATICATP3.Y"
+//#line 58 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera DO");}
 break;
 case 32:
-//#line 59 "LAGRAMATICATP3.Y"
+//#line 59 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera condicion para evaluar");}
 break;
 case 36:
-//#line 67 "LAGRAMATICATP3.Y"
+//#line 67 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera BEGIN");}
 break;
 case 37:
-//#line 68 "LAGRAMATICATP3.Y"
+//#line 68 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera alguna sentencia al menos en la linea");}
 break;
 case 38:
-//#line 69 "LAGRAMATICATP3.Y"
+//#line 69 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera END");}
 break;
 case 40:
-//#line 73 "LAGRAMATICATP3.Y"
+//#line 73 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera (");}
 break;
 case 41:
-//#line 74 "LAGRAMATICATP3.Y"
+//#line 74 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera )");}
 break;
 case 42:
-//#line 77 "LAGRAMATICATP3.Y"
-{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval);}
+//#line 77 "g0611.Y"
+{System.out.println(lexico.getCantLineas() +" (:=,"+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(":=",val_peek(2).sval,val_peek(0).sval);}
 break;
 case 43:
-//#line 78 "LAGRAMATICATP3.Y"
+//#line 78 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se desconoce lo que se le asignará luego del =");}
 break;
 case 44:
-//#line 79 "LAGRAMATICATP3.Y"
+//#line 79 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se desconoce la variable a la que se le asignará la linea");}
 break;
 case 45:
-//#line 82 "LAGRAMATICATP3.Y"
-{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval);}
+//#line 82 "g0611.Y"
+{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval); yyval.sval = "["+nt+"]";}
 break;
 case 46:
-//#line 83 "LAGRAMATICATP3.Y"
-{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval);}
+//#line 83 "g0611.Y"
+{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval); yyval.sval = "["+nt+"]";}
 break;
 case 47:
-//#line 84 "LAGRAMATICATP3.Y"
+//#line 84 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 48:
-//#line 87 "LAGRAMATICATP3.Y"
-{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval);}
+//#line 87 "g0611.Y"
+{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval); yyval.sval = "["+nt+"]";}
 break;
 case 49:
-//#line 88 "LAGRAMATICATP3.Y"
-{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval);}
+//#line 88 "g0611.Y"
+{System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval); yyval.sval = "["+nt+"]";}
 break;
 case 50:
-//#line 89 "LAGRAMATICATP3.Y"
+//#line 89 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 51:
-//#line 92 "LAGRAMATICATP3.Y"
+//#line 92 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 52:
-//#line 93 "LAGRAMATICATP3.Y"
+//#line 93 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 53:
-//#line 94 "LAGRAMATICATP3.Y"
+//#line 94 "g0611.Y"
 {yyval.sval=val_peek(1).sval+val_peek(0).sval;}
 break;
 case 54:
-//#line 95 "LAGRAMATICATP3.Y"
+//#line 95 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 55:
-//#line 98 "LAGRAMATICATP3.Y"
-{System.out.println(lexico.getCantLineas()+" ("+val_peek(2).sval+","+val_peek(3).sval+","+val_peek(1).sval+")"); }
+//#line 98 "g0611.Y"
+{System.out.println(lexico.getCantLineas()+" ("+val_peek(2).sval+","+val_peek(3).sval+","+val_peek(1).sval+")"); nt=tercetos.creaTerceto(val_peek(2).sval,val_peek(3).sval,val_peek(1).sval); yyval.sval = "["+nt+"]";}
 break;
 case 56:
-//#line 99 "LAGRAMATICATP3.Y"
+//#line 99 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera (");}
 break;
 case 57:
-//#line 100 "LAGRAMATICATP3.Y"
+//#line 100 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera operando");}
 break;
 case 58:
-//#line 101 "LAGRAMATICATP3.Y"
+//#line 101 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera operando para evaluar la condicion");}
 break;
 case 59:
-//#line 102 "LAGRAMATICATP3.Y"
+//#line 102 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera )");}
 break;
 case 60:
-//#line 105 "LAGRAMATICATP3.Y"
+//#line 105 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 61:
-//#line 106 "LAGRAMATICATP3.Y"
+//#line 106 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 62:
-//#line 107 "LAGRAMATICATP3.Y"
+//#line 107 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 63:
-//#line 108 "LAGRAMATICATP3.Y"
+//#line 108 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 64:
-//#line 109 "LAGRAMATICATP3.Y"
+//#line 109 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 65:
-//#line 110 "LAGRAMATICATP3.Y"
+//#line 110 "g0611.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 66:
-//#line 111 "LAGRAMATICATP3.Y"
+//#line 111 "g0611.Y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera = para realizar comparación");}
 break;
-//#line 732 "Parser.java"
+//#line 733 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
