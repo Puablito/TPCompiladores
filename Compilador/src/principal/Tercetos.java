@@ -23,6 +23,7 @@ public class Tercetos {
 	
 	public void listaTercetos() {
 		Iterator<String[]> tercetoIterator = tercetosListado.iterator();
+		System.out.println( "---------------------- Comienzo de Lista de Tercetos -------------------");
 		int i = 1;
 		while(tercetoIterator.hasNext()){
 			String[] elemento = tercetoIterator.next(); // elemento es el terceto

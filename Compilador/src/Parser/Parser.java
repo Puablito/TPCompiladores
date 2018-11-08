@@ -16,7 +16,7 @@
 
 
 
-//#line 2 "g0611.Y"
+//#line 2 "g0611.y"
 	package Parser;
 	import principal.*;
 //#line 20 "Parser.java"
@@ -422,16 +422,18 @@ final static String yyrule[] = {
 "comparador : '='",
 };
 
-//#line 114 "g0611.Y"
+//#line 114 "g0611.y"
 
 static Lexico lexico;
 static Tercetos tercetos;
-private int nt;
+static Errores errores;
+public int nt;
 
-public Parser(Lexico analizadorLexico, Tercetos tercetos)
+public Parser(Lexico analizadorLexico, Tercetos tercetos, Errores errores)
 {
 	lexico = analizadorLexico;
 	Parser.tercetos = tercetos;
+	Parser.errores = errores;
   //nothing to do
 }
 private void yyerror(String string) {
@@ -448,7 +450,7 @@ private int yylex() {
 	
 	return tokenNro;
 }
-//#line 380 "Parser.java"
+//#line 382 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -603,210 +605,210 @@ boolean doaction;
       {
 //########## USER-SUPPLIED ACTIONS ##########
 case 6:
-//#line 18 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas() + ": error en declaración de identificador");}
+//#line 18 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas() + ": error en declaración de identificador"); errores.creaError(lexico.getCantLineas(),"error en declaración de identificador");}
 break;
 case 7:
-//#line 21 "g0611.Y"
+//#line 21 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": declaración de tipo INT");}
 break;
 case 8:
-//#line 22 "g0611.Y"
+//#line 22 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": declaración de tipo ULONG");}
 break;
 case 9:
-//#line 25 "g0611.Y"
+//#line 25 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": declaración de identificador "+lexico.getyylval());}
 break;
 case 10:
-//#line 26 "g0611.Y"
+//#line 26 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": declaración de identificador "+lexico.getyylval());}
 break;
 case 11:
-//#line 29 "g0611.Y"
+//#line 29 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": inicio de IF");}
 break;
 case 13:
-//#line 30 "g0611.Y"
+//#line 30 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": inicio de WHILE");}
 break;
 case 15:
-//#line 31 "g0611.Y"
+//#line 31 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": sentencia PRINT");}
 break;
 case 19:
-//#line 38 "g0611.Y"
+//#line 38 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": encabezado de IF"); nt=tercetos.creaTerceto("BF",val_peek(1).sval,Integer.toString(nt+1)); yyval.sval = "["+nt+"]"; }
 break;
 case 20:
-//#line 39 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera THEN");}
+//#line 39 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera THEN"); errores.creaError(lexico.getCantLineas(),"se espera THEN");}
 break;
 case 21:
-//#line 40 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera condicion para evaluar");}
+//#line 40 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera condicion para evaluar"); errores.creaError(lexico.getCantLineas(),"se espera condicion para evaluar");}
 break;
 case 22:
-//#line 43 "g0611.Y"
+//#line 43 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": ELSE"); nt=tercetos.creaTerceto("BI",yyval.sval,"-"); yyval.sval = "["+nt+"]"; }
 break;
 case 24:
-//#line 44 "g0611.Y"
+//#line 44 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": fin if simple");}
 break;
 case 25:
-//#line 45 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ejecucion por verdadero");}
+//#line 45 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ejecucion por verdadero"); errores.creaError(lexico.getCantLineas(),"se espera ejecucion por verdadero");}
 break;
 case 26:
-//#line 46 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ejecucion por verdadero");}
+//#line 46 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - if vacio"); errores.creaError(lexico.getCantLineas(),"if vacio");}
 break;
 case 27:
-//#line 50 "g0611.Y"
+//#line 50 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": fin if doble");}
 break;
 case 28:
-//#line 51 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ejecucion por falso");}
+//#line 51 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ejecucion por falso"); errores.creaError(lexico.getCantLineas(),"se espera ejecucion por falso");}
 break;
 case 29:
-//#line 54 "g0611.Y"
+//#line 54 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": finaliza un ciclo WHILE");}
 break;
 case 30:
-//#line 57 "g0611.Y"
+//#line 57 "g0611.y"
 {System.out.println("Línea " + lexico.getCantLineas()+ ": encabezado de WHILE");}
 break;
 case 31:
-//#line 58 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera DO");}
+//#line 58 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera DO"); errores.creaError(lexico.getCantLineas(),"se espera DO");}
 break;
 case 32:
-//#line 59 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera condicion para evaluar");}
+//#line 59 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera condicion para evaluar"); errores.creaError(lexico.getCantLineas(),"se espera condicion para evaluar");}
 break;
 case 36:
-//#line 67 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera BEGIN");}
+//#line 67 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera BEGIN"); errores.creaError(lexico.getCantLineas(),"se espera BEGIN");}
 break;
 case 37:
-//#line 68 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera alguna sentencia al menos en la linea");}
+//#line 68 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera alguna sentencia al menos en la linea"); errores.creaError(lexico.getCantLineas(),"se espera alguna sentencia al menos");}
 break;
 case 38:
-//#line 69 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera END");}
+//#line 69 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera END"); errores.creaError(lexico.getCantLineas(),"se espera END");}
 break;
 case 40:
-//#line 73 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera (");}
+//#line 73 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ("); errores.creaError(lexico.getCantLineas()," se espera ( ");}
 break;
 case 41:
-//#line 74 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera )");}
+//#line 74 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera )"); errores.creaError(lexico.getCantLineas()," se espera ) ");}
 break;
 case 42:
-//#line 77 "g0611.Y"
+//#line 77 "g0611.y"
 {System.out.println(lexico.getCantLineas() +" (:=,"+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(":=",val_peek(2).sval,val_peek(0).sval);}
 break;
 case 43:
-//#line 78 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se desconoce lo que se le asignará luego del =");}
+//#line 78 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se desconoce lo que se le asignará luego del ="); errores.creaError(lexico.getCantLineas(),"se desconoce lo que se le asignará luego del =");}
 break;
 case 44:
-//#line 79 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se desconoce la variable a la que se le asignará la linea");}
+//#line 79 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se desconoce la variable a la que se le asignará la linea"); errores.creaError(lexico.getCantLineas(),"se desconoce la variable a la que se le asignará la linea");}
 break;
 case 45:
-//#line 82 "g0611.Y"
+//#line 82 "g0611.y"
 {System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval); yyval.sval = "["+nt+"]";}
 break;
 case 46:
-//#line 83 "g0611.Y"
+//#line 83 "g0611.y"
 {System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval); yyval.sval = "["+nt+"]";}
 break;
 case 47:
-//#line 84 "g0611.Y"
+//#line 84 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 48:
-//#line 87 "g0611.Y"
+//#line 87 "g0611.y"
 {System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval); yyval.sval = "["+nt+"]";}
 break;
 case 49:
-//#line 88 "g0611.Y"
+//#line 88 "g0611.y"
 {System.out.println(lexico.getCantLineas() +" ("+val_peek(1).sval+","+val_peek(2).sval+","+val_peek(0).sval+")"); nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval); yyval.sval = "["+nt+"]";}
 break;
 case 50:
-//#line 89 "g0611.Y"
+//#line 89 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 51:
-//#line 92 "g0611.Y"
+//#line 92 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 52:
-//#line 93 "g0611.Y"
+//#line 93 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 53:
-//#line 94 "g0611.Y"
+//#line 94 "g0611.y"
 {yyval.sval=val_peek(1).sval+val_peek(0).sval;}
 break;
 case 54:
-//#line 95 "g0611.Y"
+//#line 95 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 55:
-//#line 98 "g0611.Y"
+//#line 98 "g0611.y"
 {System.out.println(lexico.getCantLineas()+" ("+val_peek(2).sval+","+val_peek(3).sval+","+val_peek(1).sval+")"); nt=tercetos.creaTerceto(val_peek(2).sval,val_peek(3).sval,val_peek(1).sval); yyval.sval = "["+nt+"]";}
 break;
 case 56:
-//#line 99 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera (");}
+//#line 99 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera ("); errores.creaError(lexico.getCantLineas(),"se espera (");}
 break;
 case 57:
-//#line 100 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera operando");}
+//#line 100 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera operando"); errores.creaError(lexico.getCantLineas(),"se espera operando");}
 break;
 case 58:
-//#line 101 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera operando para evaluar la condicion");}
+//#line 101 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera operando para evaluar la condicion"); errores.creaError(lexico.getCantLineas(),"se espera operando para evaluar la condicion");}
 break;
 case 59:
-//#line 102 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera )");}
+//#line 102 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera )"); errores.creaError(lexico.getCantLineas(),"se espera )");}
 break;
 case 60:
-//#line 105 "g0611.Y"
+//#line 105 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 61:
-//#line 106 "g0611.Y"
+//#line 106 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 62:
-//#line 107 "g0611.Y"
+//#line 107 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 63:
-//#line 108 "g0611.Y"
+//#line 108 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 64:
-//#line 109 "g0611.Y"
+//#line 109 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 65:
-//#line 110 "g0611.Y"
+//#line 110 "g0611.y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 66:
-//#line 111 "g0611.Y"
-{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera = para realizar comparación");}
+//#line 111 "g0611.y"
+{System.out.println("Línea " + lexico.getCantLineas()+ ": ERROR - se espera = para realizar comparación"); errores.creaError(lexico.getCantLineas(),"se espera = para realizar comparación");}
 break;
-//#line 733 "Parser.java"
+//#line 735 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
