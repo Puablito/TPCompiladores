@@ -8,7 +8,7 @@ public class Errores {
 	private String[] error;
 	private ArrayList<String[]> erroresListado = new ArrayList<String[]>();
 
-	public void Tercetos(){
+	public Errores(){
 		erroresListado.clear();
 	}
 	

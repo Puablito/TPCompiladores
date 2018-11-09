@@ -84,7 +84,11 @@ public class Principal extends JFrame {
         for (String key : mapKeys) {
             // Obtenemos el value.
             ValoresTS vTS = tablaSimbolosMap.get(key);
-            System.out.println( "Simbolo: " + key + ", Tipo: " + vTS.getTokenTipo());
+            if (vTS.getTokenTipo() == null) {
+            	System.out.println( "Simbolo: " + key);
+            }else {
+            	System.out.println( "Simbolo: " + key + ", Tipo: " + vTS.getTokenTipo());
+            }
         }
         
 	}
@@ -141,7 +145,7 @@ public class Principal extends JFrame {
 					// Creo el analizador lexico y se lo paso como parametro al parser
 					analizadorLexico = new Lexico(bf, tablaSimbolos, tablaSimbolosMap); 
 					//ParserNuestro analizadorSintactico = new ParserNuestro(analizadorLexico); //parser del tp1
-					Parser analizadorSintactico = new Parser(analizadorLexico, tercetos, errores);
+					Parser analizadorSintactico = new Parser(analizadorLexico, tercetos, errores, tablaSimbolosMap);
 					analizadorSintactico.run();
 					//mostrarListaSimbolos();
 					mostrarMapasimbolos();

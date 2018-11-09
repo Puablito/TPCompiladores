@@ -40,4 +40,22 @@ public class Tercetos {
 		return tercetosListado.size();
 		
 	}
+	
+	public void completaTerceto (int nroTercetoCambiar, int valorOperador) {
+		String[] tercetoModificar;
+		// Recupero el terceto a modificar
+		tercetoModificar = this.getTerceto(nroTercetoCambiar-1);
+		String guion = "-";
+		
+		// busco el guion y modifico el elemento del terceto que lo posea por valorOperador
+		if (tercetoModificar[0] == guion) {
+			tercetoModificar[0] =  "["+Integer.toString(valorOperador)+"]";
+		}else if (tercetoModificar[1] == guion) {
+			tercetoModificar[1] =  "["+Integer.toString(valorOperador)+"]";
+		}else if (tercetoModificar[2] == guion) {
+			tercetoModificar[2] =  "["+Integer.toString(valorOperador)+"]";
+		}
+		
+		//this.tercetosListado.add(nroTercetoCambiar, tercetoModificar);
+	}
 }

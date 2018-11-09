@@ -50,8 +50,10 @@ public abstract class AccionSemantica {
 		tablaSimbolosLex.put(tokenString, tokenID);
 	
 		ValoresTS v = new ValoresTS();
+		if (tokenTipoS != "") {
 		v.setTokenID(tokenID);
 		v.setTokenTipo(tokenTipoS);
+		}
 		tablaSimbolosMapLex.put(tokenString, v);
 	}
 	
