@@ -23,6 +23,7 @@ public class Tercetos {
 	}
 	
 	public void listaTercetos() {
+		creaTerceto("EOF", "-", "-", "");
 		Iterator<String[]> tercetoIterator = tercetosListado.iterator();
 		System.out.println( "---------------------- Lista de Tercetos -------------------");
 		int i = 1;
