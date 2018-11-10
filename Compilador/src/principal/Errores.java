@@ -22,7 +22,7 @@ public class Errores {
 	
 	public void listarErrores() {
 		Iterator<String[]> erroresIterator = erroresListado.iterator();
-		System.out.println( "---------------------- Comienzo de Lista de Errores -------------------");
+		System.out.println( "---------------------- Lista de Errores -------------------");
 		while(erroresIterator.hasNext()){
 			String[] errorActual = erroresIterator.next();
 			System.out.println("Linea "+errorActual[0]+": ERROR - "+errorActual[1]+" ");

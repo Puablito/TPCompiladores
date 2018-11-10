@@ -64,7 +64,7 @@ public class Principal extends JFrame {
 	}
 	
 	public void mostrarMapasimbolos() {
-		 System.out.println( "---------------------- Comienzo de Tabla de Simbolos -------------------");
+		 System.out.println( "---------------------- Tabla de Simbolos -------------------");
 	
 		 //Collection<ValoresTS> vts = tablaSimbolosMap.values();
 		

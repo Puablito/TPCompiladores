@@ -21,7 +21,7 @@ public class ASEOF  extends AccionSemantica {
         	token = new Token(0, tokenString);
         	
         	//System.out.println("Error en linea "+ cantLin +" Identificador: "+ tokenString);
-        	System.out.println("Fin de Archivo");
+        	//System.out.println("Fin de Archivo");
         }
 		//System.out.println("Fin de Archivo");
 	}	
