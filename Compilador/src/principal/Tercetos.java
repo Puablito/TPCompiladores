@@ -11,11 +11,12 @@ public class Tercetos {
 		tercetosListado.clear();
 	}
 	
-	public int creaTerceto(String op1,String op2, String op3) {
-		terceto  = new String[3];
+	public int creaTerceto(String op1,String op2, String op3, String tipo) {
+		terceto  = new String[4];
 		terceto[0] = op1;
 		terceto[1] = op2;
 		terceto[2] = op3;
+		terceto[3] = tipo;
 		
 		tercetosListado.add(terceto);
 		return tercetosListado.size(); //retorna la posicion del terceto 
@@ -27,7 +28,7 @@ public class Tercetos {
 		int i = 1;
 		while(tercetoIterator.hasNext()){
 			String[] elemento = tercetoIterator.next(); // elemento es el terceto
-			System.out.println(i+". ( "+elemento[0]+" , "+elemento[1]+" , "+elemento[2]+" ) ");
+			System.out.println(i+". ( "+elemento[0]+" , "+elemento[1]+" , "+elemento[2]+" ) "+elemento[3]);
 			i++;
 		}
 	}
