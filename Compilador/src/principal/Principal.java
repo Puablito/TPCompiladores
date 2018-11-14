@@ -37,7 +37,7 @@ public class Principal extends JFrame {
 	final Iterator<ValoresTS> it = tablaSimbolosMap.values().iterator();
 	private Tercetos tercetos;
 	private Errores errores;
-	
+	private generadorAsembler asembler;
 	/**
 	 * Launch the application.
 	 */
@@ -113,13 +113,13 @@ public class Principal extends JFrame {
 		panel.add(txtPath);
 		txtPath.setColumns(10);
 		
-		JLabel lblPathDelCodigo = new JLabel("Path del C\u00F3digo Fuente:");
+		JLabel lblPathDelCodigo = new JLabel("Path del Codigo Fuente:");
 		lblPathDelCodigo.setBounds(10, 11, 153, 14);
 		panel.add(lblPathDelCodigo);
 		
 		JButton btnIniciarParser = new JButton("Iniciar Parser");
 		btnIniciarParser.addActionListener(new ActionListener() {
-			// Acci�n del boton "Iniciar Parser"
+			// Accion del boton "Iniciar Parser"
 			public void actionPerformed(ActionEvent arg0) {
 				
 				
@@ -128,7 +128,7 @@ public class Principal extends JFrame {
 				if (cPath.isEmpty()){
 					JOptionPane.showMessageDialog(null, "Debe ingresar una ruta de archivo!");
 				}else{
-					// Abro el archivo que contiene el c�digo fuente
+					// Abro el archivo que contiene el codigo fuente
 					File file = new File (txtPath.getText());					
 					try {
 						//fr = new FileReader(file)
@@ -151,6 +151,9 @@ public class Principal extends JFrame {
 					mostrarMapasimbolos();
 					tercetos.listaTercetos();
 					errores.listarErrores();
+					
+					asembler = new generadorAsembler(tablaSimbolosMap);
+					asembler.muestraCodigo();
 				}
 			}
 		});
