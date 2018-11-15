@@ -1,5 +1,7 @@
 package principal;
 
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -13,12 +15,13 @@ public class generadorAsembler {
 	//Constructor
 	public generadorAsembler(Map<String, ValoresTS> tablaSimbolosMap) {
 		TSMap = tablaSimbolosMap;
-		creaData();
+		creaCabecera();
 		creaCodigo();
 	}
 	
-	// genera todo el codigo que se encuetra hasta la etiqueta start (código asembler)
-	public void creaData() { 
+	// Genera todo el codigo que se encuetra hasta la etiqueta start (codigo asembler)
+	// Carga todas las variables declaradas que se encuentran en la Tabla de Simbolos
+	public void creaCabecera() { 
 		cabecera = new ArrayList<String>();
 		cabecera.add(".386");
 		cabecera.add(".model flat, stdcall");
@@ -38,18 +41,27 @@ public class generadorAsembler {
         for (String key : mapKeys) {
             // Obtenemos el value.
             ValoresTS vTS = TSMap.get(key);
-            if (vTS.getTokenTipo() != null) { // el token es un identificador o constante ya que posee tipo
-            	if (vTS.getTokenTipo() == "INT") {
-            		cabecera.add("	"+key +" dw 0");			// ver si los tipos ASSEMBLER estan correctos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            	}else if (vTS.getTokenTipo() == "ULONG") {
-            		cabecera.add("	"+key +" dd 0");			// ver si los tipos ASSEMBLER estan correctos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            	}
+            if (vTS.getTokenTipo() != null) { 	// el token es un identificador o constante ya que posee tipo
+            	this.agergaVariable(key, vTS.getTokenTipo());
             }	
         }
 		
 	}
 	
-	// creaCodigo usará cabecera para agergar las variables nuevas que se vayan generando
+	// Agerga una variable a la seccion data
+	public void agergaVariable(String nombre, String tipo) {
+		if (tipo == "INT") {
+    		if (nombre.indexOf("_i") == -1) {	// Si no encuentra el _i es un identificador
+    			cabecera.add("	"+nombre +" dw 0");		// ver si los tipos ASSEMBLER estan correctos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    		}
+    	}else if (tipo == "ULONG") {
+    		if (nombre.indexOf("_ul") == -1) {	// Si no encuentra el _ul es un identificador
+    			cabecera.add("	"+nombre +" dd 0");		// ver si los tipos ASSEMBLER estan correctos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    		}
+    	}
+	}
+	
+	// Genera el bloque code de asembler, usar metodo agregaVariable para declarar variables en la seccion data
 	public void creaCodigo() {
 		codigo = new ArrayList<String>();
 		codigo.add(".code");
@@ -59,7 +71,7 @@ public class generadorAsembler {
 		codigo.add("");
 	}
 	
-	public void muestraCodigo() {
+	public void imprimeCodigoPantalla() {
 		System.out.println( "---------------------- Codigo Assembler -------------------");
 		
 		//Recorro la cabecera
@@ -75,7 +87,38 @@ public class generadorAsembler {
 		}
 	}
 	
-	public void grabaArchivo() {
-		
+	// Genera el archivo .asm
+	public void imprimeCodigoArchivo(String nombreArchivo) {
+		FileWriter archivo = null;
+        PrintWriter pw = null;
+        try {
+        	nombreArchivo = nombreArchivo.replace("txt", "asm"); // reemplazo la extension del archivo
+        	archivo = new FileWriter(nombreArchivo);
+            pw = new PrintWriter(archivo);
+
+            // Recorro y grabo la cabecera y el .data
+    		for (Iterator<String> iterator = cabecera.iterator(); iterator.hasNext();) {
+    			String string = iterator.next();
+    			pw.println(string);
+    		}
+    		
+    		// Recorro y grabo el codigo
+    		for (Iterator<String> iterator = codigo.iterator(); iterator.hasNext();) {
+    			String string = iterator.next();
+    			pw.println(string);
+    		}
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+           try {
+        	   // Aprovechamos el finally para asegurarnos que se cierra el fichero.
+        	   if (null != archivo) {
+        		   archivo.close();
+        	   }
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
 	}
 }

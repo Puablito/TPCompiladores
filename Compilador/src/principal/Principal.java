@@ -117,11 +117,10 @@ public class Principal extends JFrame {
 		lblPathDelCodigo.setBounds(10, 11, 153, 14);
 		panel.add(lblPathDelCodigo);
 		
-		JButton btnIniciarParser = new JButton("Iniciar Parser");
+		JButton btnIniciarParser = new JButton("Compilar");
 		btnIniciarParser.addActionListener(new ActionListener() {
 			// Accion del boton "Iniciar Parser"
 			public void actionPerformed(ActionEvent arg0) {
-				
 				
 				//txtPath.setText("c:\\codigo_fuente.txt");
 				String cPath = txtPath.getText();
@@ -129,10 +128,8 @@ public class Principal extends JFrame {
 					JOptionPane.showMessageDialog(null, "Debe ingresar una ruta de archivo!");
 				}else{
 					// Abro el archivo que contiene el codigo fuente
-					File file = new File (txtPath.getText());					
+					File file = new File (cPath);					
 					try {
-						//fr = new FileReader(file)
-						//FileReader fr = new FileReader(cPath); comento para pruebas
 						FileReader fr = new FileReader(file);
 						bf = new BufferedReader (fr);
 					} catch (FileNotFoundException e) {
@@ -153,7 +150,8 @@ public class Principal extends JFrame {
 					errores.listarErrores();
 					
 					asembler = new generadorAsembler(tablaSimbolosMap);
-					asembler.muestraCodigo();
+					asembler.imprimeCodigoPantalla();
+					asembler.imprimeCodigoArchivo(cPath);
 				}
 			}
 		});
