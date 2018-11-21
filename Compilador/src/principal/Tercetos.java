@@ -11,12 +11,27 @@ public class Tercetos {
 		tercetosListado.clear();
 	}
 	
+	public ArrayList<String[]> getTercetosListado() {
+		return tercetosListado;
+	}
+
+	public void setTercetosListado(ArrayList<String[]> tercetosListado) {
+		this.tercetosListado = tercetosListado;
+	}
+
 	public int creaTerceto(String op1,String op2, String op3, String tipo) {
-		terceto  = new String[4];
+		int cantidadTercetos = tercetosListado.size();
+		terceto  = new String[5];
 		terceto[0] = op1;
 		terceto[1] = op2;
 		terceto[2] = op3;
 		terceto[3] = tipo;
+		terceto[4] = "";
+		// Guardo la variable donde se guardara el resultado de la operacion
+		if (tipo != "") {
+			terceto[4] = "@var"+Integer.toString(cantidadTercetos+1);
+		}
+		
 		
 		tercetosListado.add(terceto);
 		return tercetosListado.size(); //retorna la posicion del terceto 
@@ -29,7 +44,7 @@ public class Tercetos {
 		int i = 1;
 		while(tercetoIterator.hasNext()){
 			String[] elemento = tercetoIterator.next(); // elemento es el terceto
-			System.out.println(i+". ( "+elemento[0]+" , "+elemento[1]+" , "+elemento[2]+" ) "+elemento[3]);
+			System.out.println(i+". ( "+elemento[0]+" , "+elemento[1]+" , "+elemento[2]+" ) "+elemento[3]+" "+elemento[4]);
 			i++;
 		}
 	}

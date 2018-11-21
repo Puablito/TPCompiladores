@@ -149,7 +149,7 @@ public class Principal extends JFrame {
 					tercetos.listaTercetos();
 					errores.listarErrores();
 					
-					asembler = new generadorAsembler(tablaSimbolosMap);
+					asembler = new generadorAsembler(tablaSimbolosMap,tercetos.getTercetosListado());
 					asembler.imprimeCodigoPantalla();
 					asembler.imprimeCodigoArchivo(cPath);
 				}

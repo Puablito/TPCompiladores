@@ -11,10 +11,12 @@ public class generadorAsembler {
 	public ArrayList<String> cabecera;
 	public ArrayList<String> codigo;
 	public Map<String, ValoresTS> TSMap;
+	public ArrayList<String[]> tercetos;
 	
 	//Constructor
-	public generadorAsembler(Map<String, ValoresTS> tablaSimbolosMap) {
+	public generadorAsembler(Map<String, ValoresTS> tablaSimbolosMap, ArrayList<String[]> tercetosListado) {
 		TSMap = tablaSimbolosMap;
+		tercetos = tercetosListado;
 		creaCabecera();
 		creaCodigo();
 	}
@@ -66,6 +68,65 @@ public class generadorAsembler {
 		codigo = new ArrayList<String>();
 		codigo.add(".code");
 		codigo.add("start:");
+		
+		// Recorro la lista de tercetos
+		Iterator<String[]> tercetoIterator = tercetos.iterator();
+		int i=0;
+		while(tercetoIterator.hasNext()){
+			String[] elemento = tercetoIterator.next(); // elemento es el terceto
+			i++;							//indica el numero del terceto actual
+			
+			String operacion = elemento[0]; // Operacion
+			String op1 = elemento[1];		// Operador 1
+			String op2 = elemento[2];		// Operador 2
+			
+			// Verifico si es una referencia a otro terceto y recupero la variable donde se guarda el resultado
+			if ('[' == op1.charAt(0)) { 
+				String nroTerceto = op1.substring(1,op1.length()-1);
+				op1 = "@var"+nroTerceto;
+			}
+			if ('[' == op2.charAt(0)) { 
+				String nroTerceto = op2.substring(1,op2.length()-1);
+				op2 = "@var"+nroTerceto;
+			}
+			
+			// Genero codigo para las operaciones
+			
+			//Falta agregar las variables a la parte de data
+			//falta agergar un "_" a los identificadores
+			//falta sacar los sufijos a las constantes
+			//falta el while
+			//falta el if
+			//ver como cargar el error de la AS11 en el vector de errores (y ver que no se haya escapado algun otro)
+			if (operacion.equals("+")) {
+				codigo.add("	MOV EAX, "+op1);
+				codigo.add("	ADD EAX, "+op2);
+				codigo.add("	MOV @var"+i+",EAX");
+			}else if (operacion.equals("-")) {
+				codigo.add("	MOV EAX, "+op1);
+				codigo.add("	SUB EAX, "+op2);
+				codigo.add("	MOV @var"+i+",EAX");
+			}else if (operacion.equals("*")) {
+				codigo.add("	MOV EAX, "+op1);
+				codigo.add("	MUL EAX, "+op2);
+				codigo.add("	MOV @var"+i+",EAX");
+			}else if (operacion.equals("/")) {
+				codigo.add("	MOV EAX, "+op1);
+				codigo.add("	DIV EAX, "+op2);
+				codigo.add("	MOV @var"+i+",EAX");
+			}else if (operacion.equals(":=")) {
+				codigo.add("	MOV EAX, "+op2);
+				codigo.add("	MOV "+op1+",EAX");
+			}
+		
+		
+		
+		
+		
+		
+		
+		}
+		
 		codigo.add("	invoke ExitProcess, 0");
 		codigo.add("end start");
 		codigo.add("");
