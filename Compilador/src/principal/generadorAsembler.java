@@ -12,6 +12,7 @@ public class generadorAsembler {
 	public ArrayList<String> codigo;
 	public Map<String, ValoresTS> TSMap;
 	public ArrayList<String[]> tercetos;
+	public Registros registros;
 	
 	//Constructor
 	public generadorAsembler(Map<String, ValoresTS> tablaSimbolosMap, ArrayList<String[]> tercetosListado) {
@@ -98,25 +99,26 @@ public class generadorAsembler {
 			//falta el while
 			//falta el if
 			//ver como cargar el error de la AS11 en el vector de errores (y ver que no se haya escapado algun otro)
+			String reg=registros.tomaRegistro();
 			if (operacion.equals("+")) {
-				codigo.add("	MOV EAX, "+op1);
-				codigo.add("	ADD EAX, "+op2);
-				codigo.add("	MOV @var"+i+",EAX");
+				codigo.add("	MOV "+reg+", "+op1);
+				codigo.add("	ADD "+reg+", "+op2);
+				codigo.add("	MOV @var"+i+","+reg);
 			}else if (operacion.equals("-")) {
-				codigo.add("	MOV EAX, "+op1);
-				codigo.add("	SUB EAX, "+op2);
-				codigo.add("	MOV @var"+i+",EAX");
+				codigo.add("	MOV "+reg+", "+op1);
+				codigo.add("	SUB "+reg+", "+op2);
+				codigo.add("	MOV @var"+i+","+reg);
 			}else if (operacion.equals("*")) {
-				codigo.add("	MOV EAX, "+op1);
-				codigo.add("	MUL EAX, "+op2);
-				codigo.add("	MOV @var"+i+",EAX");
+				codigo.add("	MOV "+reg+", "+op1);
+				codigo.add("	MUL "+reg+", "+op2);
+				codigo.add("	MOV @var"+i+","+reg);
 			}else if (operacion.equals("/")) {
-				codigo.add("	MOV EAX, "+op1);
-				codigo.add("	DIV EAX, "+op2);
-				codigo.add("	MOV @var"+i+",EAX");
+				codigo.add("	MOV "+reg+", "+op1);
+				codigo.add("	DIV "+reg+", "+op2);
+				codigo.add("	MOV @var"+i+","+reg);
 			}else if (operacion.equals(":=")) {
-				codigo.add("	MOV EAX, "+op2);
-				codigo.add("	MOV "+op1+",EAX");
+				codigo.add("	MOV "+reg+", "+op2);
+				codigo.add("	MOV "+op1+","+reg);
 			}
 		
 		
@@ -131,6 +133,8 @@ public class generadorAsembler {
 		codigo.add("end start");
 		codigo.add("");
 	}
+	
+
 	
 	public void imprimeCodigoPantalla() {
 		System.out.println( "---------------------- Codigo Assembler -------------------");
