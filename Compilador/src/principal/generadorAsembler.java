@@ -18,6 +18,7 @@ public class generadorAsembler {
 	public generadorAsembler(Map<String, ValoresTS> tablaSimbolosMap, ArrayList<String[]> tercetosListado) {
 		TSMap = tablaSimbolosMap;
 		tercetos = tercetosListado;
+		registros = new Registros();
 		creaCabecera();
 		creaCodigo();
 	}
@@ -99,8 +100,8 @@ public class generadorAsembler {
 			//falta el while
 			//falta el if
 			//ver como cargar el error de la AS11 en el vector de errores (y ver que no se haya escapado algun otro)
-			//String reg=registros.tomaRegistro();
-			String reg ="EAX";
+			String reg=registros.tomaRegistro();
+			//String reg ="EAX";
 			if (operacion.equals("+")) {
 				codigo.add("	MOV "+reg+", "+op1);
 				codigo.add("	ADD "+reg+", "+op2);
@@ -121,10 +122,7 @@ public class generadorAsembler {
 				codigo.add("	MOV "+reg+", "+op2);
 				codigo.add("	MOV "+op1+","+reg);
 			}
-		
-		
-		
-		
+			registros.liberaRegistro(reg);
 		
 		
 		
