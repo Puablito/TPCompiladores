@@ -101,7 +101,6 @@ public class generadorAsembler {
 			//falta el if
 			//ver como cargar el error de la AS11 en el vector de errores (y ver que no se haya escapado algun otro)
 			String reg=registros.tomaRegistro();
-			//String reg ="EAX";
 			if (operacion.equals("+")) {
 				codigo.add("	MOV "+reg+", "+op1);
 				codigo.add("	ADD "+reg+", "+op2);
