@@ -34,7 +34,7 @@ public class Principal extends JFrame {
 	public Hashtable<String,Integer> tablaSimbolos = new Hashtable<String,Integer>(); //no se cuantos campos tendr� ni el tipo de datos, genericamente la arme con 2 campos string 
 	// HashMap<String, ValoresTS()> tablaSimbolosMap = new HashMap<String, ValoresTS()>;
 	final Map<String, ValoresTS> tablaSimbolosMap = new Hashtable<String, ValoresTS>();
-	final Iterator<ValoresTS> it = tablaSimbolosMap.values().iterator();
+	//final Iterator<ValoresTS> it = tablaSimbolosMap.values().iterator();
 	private Tercetos tercetos;
 	private Errores errores;
 	private generadorAsembler asembler;

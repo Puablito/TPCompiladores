@@ -13,12 +13,12 @@ public class Registros {
 	
 	public void iniciaTabla() {
 		registro  = new String[2];
-		registro[0] = "0";//Disponibilidad: 1 es libre, 0 ocupado 
+		registro[0] = "1";//Disponibilidad: 1 es libre, 0 ocupado 
 		registro[1] = "EAX";//EAX , EBX , ECX , EDX
 		tablaRegistros.add(registro);
 		
 		registro  = new String[2];
-		registro[0] = "0"; 
+		registro[0] = "1"; 
 		registro[1] = "EBX";
 		tablaRegistros.add(registro);
 		
