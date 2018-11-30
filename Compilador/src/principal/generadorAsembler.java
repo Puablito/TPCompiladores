@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+
 public class generadorAsembler {
 	public ArrayList<String> cabecera;
 	public ArrayList<String> data;
@@ -43,7 +44,7 @@ public class generadorAsembler {
 		cabecera.add(".data");
 	}
 	
-	// Genera la Tabla con todas las variables que se van a declarar en assembler 
+	// Genera la Tabla con todas las VARIABLES que se van a declarar en assembler 
 	public void generaData() {  
 		//Recorro tabla de Simbolos y Guardo en la Tabla de Variables (DATA) 
 		Set<String> mapKeys = TSMap.keySet(); // Obtenemos todas las llaves del mapa.
@@ -55,7 +56,7 @@ public class generadorAsembler {
             if (vTS.getTokenTipo() != null) { 	// el token es un identificador o constante ya que posee tipo
             	// Solo guardo los identificadores y descarto las constantes
             	if ((key.indexOf("_i") == -1) && (key.indexOf("_ul") == -1)){ 
-            		this.agergaVariable(key, vTS.getTokenTipo());
+            		this.agergaVariable("_"+key, vTS.getTokenTipo());
             	}
             }	
         }
@@ -85,9 +86,10 @@ public class generadorAsembler {
 		if (TVariables.containsKey(variable)) { // verifica las variables e identificadores
 			ValoresTS vTS = TVariables.get(variable);
 			return vTS.getTokenTipo();
-		}else if (TSMap.containsKey(variable)){ // verifica las constantes
-			ValoresTS vTS = TSMap.get(variable);
-			return vTS.getTokenTipo();
+		}else if (TSMap.containsKey(variable+"_i")){ // verifica en tabla de simbolo si es un INT
+			return "INT";
+		}else if (TSMap.containsKey(variable+"_ul")){ // verifica en tabla de simbolo si es un ULONG
+			return "ULONG";
 		}
 		return"";
 	}
@@ -108,6 +110,8 @@ public class generadorAsembler {
             		data.add("	"+key +" dw 0");		// ver si los tipos ASSEMBLER estan correctos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             	}else if (tipo == "ULONG") {
             		data.add("	"+key +" dd 0");		// ver si los tipos ASSEMBLER estan correctos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            	}else if (tipo == "STRING") {
+            		data.add("	"+key +" db 0");
             	}
             }	
         }
@@ -115,8 +119,9 @@ public class generadorAsembler {
 		
 	}
 	
+	// Crea una variable nueva, la da de alta en DATA y la devuelve
 	public String getNewVariable(int indice,String tipo) {
-		String varAux = "@var"+indice;
+		String varAux = "@v"+indice;
 		boolean existeVar = this.existeVariable(varAux);
 		if (existeVar == false) {
 			this.agergaVariable(varAux,tipo);
@@ -125,6 +130,12 @@ public class generadorAsembler {
 	}
 	// Genera el bloque code de asembler, usar metodo agregaVariable para declarar variables en la seccion data
 	public void creaCodigo() {
+		// Variables auxiliares
+		String varAux ="";
+		String operacionAnt = "";
+		String op1Ant = "";
+		String op2Ant = "";
+		
 		codigo = new ArrayList<String>();
 		codigo.add(".code");
 		codigo.add("start:");
@@ -132,32 +143,39 @@ public class generadorAsembler {
 		// Recorro la lista de tercetos
 		Iterator<String[]> tercetoIterator = tercetos.iterator();
 		int i=0;
+		
 		while(tercetoIterator.hasNext()){
 			String[] elemento = tercetoIterator.next(); // elemento es el terceto
 			i++;							//indica el numero del terceto actual
-			String varAux;
+			
+			
+			// Terceto actual
 			String operacion = elemento[0]; // Operacion
 			String op1 = elemento[1];		// Operador 1
 			String op2 = elemento[2];		// Operador 2
-			
-			
+			String nroLabel1="";
+			String nroLabel2="";
 			// Verifico si es una referencia a otro terceto y recupero la variable donde se guarda el resultado
+			
 			if ('[' == op1.charAt(0)) { 
 				String nroTerceto = op1.substring(1,op1.length()-1);
-				op1 = "@var"+nroTerceto;
+				nroLabel1 = nroTerceto;
+				op1 = "@v"+nroTerceto;
 			}
 			if ('[' == op2.charAt(0)) { 
 				String nroTerceto = op2.substring(1,op2.length()-1);
-				op2 = "@var"+nroTerceto;
+				nroLabel2 = nroTerceto;
+				op2 = "@v"+nroTerceto;
 			}
+			
+			// Si es una CONSTANTE le eliminamos el sufijo y si es IDENTIFICADOR agrega el guion
+			op1 = eliminaSufijo_AgregaGuion(op1);
+			op2 = eliminaSufijo_AgregaGuion(op2);
 			
 			// Genero codigo para las operaciones
 			
-			//Falta agregar las variables a la parte de data
-			//falta agergar un "_" a los identificadores
-			//falta sacar los sufijos a las constantes
-			//falta el while
-			//falta el if
+			//FALTA
+				//falta division por cero
 			String reg=registros.tomaRegistro();
 			if (operacion.equals("+")) {
 				codigo.add("	MOV "+reg+", "+op1);
@@ -182,11 +200,40 @@ public class generadorAsembler {
 			}else if (operacion.equals(":=")) {
 				codigo.add("	MOV "+reg+", "+op2);
 				codigo.add("	MOV "+op1+","+reg);
+			}else if (operacion.equals("PRINTF")) {
+				varAux = this.getNewVariable(i,"STRING");
+				codigo.add("	MOV "+varAux+", "+op1);
+				codigo.add("	invoke MessageBox, NULL, addr "+ varAux +", addr "+ varAux +", MB_OK");
+			}else if (operacion.equals("BF")) {
+				codigo.add("	CMP "+op1Ant+", "+op2Ant);
+				// Genero las etiquetas de los saltos
+				if (operacionAnt.equals(">")) {
+					codigo.add("	JLE label"+nroLabel2);
+				}else if (operacionAnt.equals(">=")) {
+					codigo.add("	JL label"+nroLabel2);
+				}else if (operacionAnt.equals("<")) {
+					codigo.add("	JGE label"+nroLabel2);
+				}else if (operacionAnt.equals("<=")) {
+					codigo.add("	JG label"+nroLabel2);
+				}else if (operacionAnt.equals("==")) {
+					codigo.add("	JNE label"+nroLabel2);
+				}else if (operacionAnt.equals("<>")) {
+					codigo.add("	JE label"+nroLabel2);
+				}		
+			}else if (operacion.equals("BI")) {
+				codigo.add("	JMP label"+nroLabel1);
+			}else if (operacion.indexOf("label")!=-1) {
+				codigo.add("	"+operacion+":");
 			}
+				
+				
 			registros.liberaRegistro(reg);
 		
-		
-		
+			// Guardo elementos del terceto anterior
+			operacionAnt = operacion;
+			op1Ant = op1;
+			op2Ant = op2;
+			
 		}
 		
 		codigo.add("	invoke ExitProcess, 0");
@@ -194,7 +241,17 @@ public class generadorAsembler {
 		codigo.add("");
 	}
 	
-
+	// Si es una constante elimina el sufijo y si es un identificador agerga un guion bajo al principio
+	public String eliminaSufijo_AgregaGuion(String operador) {
+		if ((operador.indexOf("_i") != -1)) { 
+			operador = operador.replace("_i", "");
+    	}else if (operador.indexOf("_ul") != -1) {
+    		operador = operador.replace("_ul", "");
+    	}else if (existeVariable("_"+operador)){
+    		operador = "_"+operador;
+    	}		
+		return operador;
+	}
 	
 	public void imprimeCodigoPantalla() {
 		System.out.println( "---------------------- Codigo Assembler -------------------");

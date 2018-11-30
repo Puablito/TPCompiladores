@@ -66,16 +66,6 @@ public class Principal extends JFrame {
 	public void mostrarMapasimbolos() {
 		 System.out.println( "---------------------- Tabla de Simbolos -------------------");
 	
-		 //Collection<ValoresTS> vts = tablaSimbolosMap.values();
-		
-		/* Enumeration<String> e = (Enumeration<String>) tablaSimbolosMap.keySet();
-		 Object s;
-		 while( e.hasMoreElements() ){
-			 s = e.nextElement();
-			 ValoresTS vTS = it.next();
-			 System.out.println( "Simbolo: " + s + ", Tipo: " + vTS.getTokenID() );
-		}
-		*/
 		 
 		 // Obtenemos todas las llaves del mapa.
         Set<String> mapKeys = tablaSimbolosMap.keySet();
