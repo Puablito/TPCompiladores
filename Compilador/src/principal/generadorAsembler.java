@@ -98,7 +98,7 @@ public class generadorAsembler {
 		data = new ArrayList<String>();		
 		//Recorro tabla de Simbolos y Guardo en la Tabla de Variables (DATA) 
 		Set<String> TvarKeys = TVariables.keySet(); // Obtenemos todas las llaves del mapa (Tabla de variables).
- 
+		data.add("errorDiv db \"division por cero\", 0");
         // Recorremos el mapa por sus llaves e imprimimos sus valores.
         for (String key : TvarKeys) {
             // Obtenemos el value.
@@ -173,15 +173,15 @@ public class generadorAsembler {
 			op2 = eliminaSufijo_AgregaGuion(op2);
 			
 			// Genero codigo para las operaciones
-			
-			//FALTA
-				//falta division por cero
+
 			String reg=registros.tomaRegistro();
 			if (operacion.equals("+")) {
+				reg=registros.tomaRegistro();
 				codigo.add("	MOV "+reg+", "+op1);
 				codigo.add("	ADD "+reg+", "+op2);
 				varAux = this.getNewVariable(i,this.getTipoVariable(op1));
 				codigo.add("	MOV "+varAux+","+reg);
+				registros.liberaRegistro(reg);
 			}else if (operacion.equals("-")) {
 				codigo.add("	MOV "+reg+", "+op1);
 				codigo.add("	SUB "+reg+", "+op2);
@@ -194,6 +194,8 @@ public class generadorAsembler {
 				codigo.add("	MOV "+varAux+","+reg);
 			}else if (operacion.equals("/")) {
 				codigo.add("	MOV "+reg+", "+op1);
+				codigo.add("	CMP "+op2+",0");
+				codigo.add("	JE errorCero");
 				codigo.add("	DIV "+reg+", "+op2);
 				varAux = this.getNewVariable(i,this.getTipoVariable(op1));
 				codigo.add("	MOV "+varAux+","+reg);
@@ -235,7 +237,10 @@ public class generadorAsembler {
 			op2Ant = op2;
 			
 		}
-		
+		codigo.add("	JMP fin");
+		codigo.add("	errorCero:");
+		codigo.add("	invoke MessageBox, NULL, addr errorDiv, addr errorDiv, MB_OK");
+		codigo.add("	fin:");
 		codigo.add("	invoke ExitProcess, 0");
 		codigo.add("end start");
 		codigo.add("");

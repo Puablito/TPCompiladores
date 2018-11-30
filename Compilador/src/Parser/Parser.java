@@ -425,7 +425,7 @@ final static String yyrule[] = {
 "comparador : '='",
 };
 
-//#line 140 "GramaticaTP3.Y"
+//#line 141 "GramaticaTP3.Y"
 
 static Lexico lexico;
 static Tercetos tercetos;
@@ -720,7 +720,7 @@ case 19:
 break;
 case 21:
 //#line 52 "GramaticaTP3.Y"
-{tercetos.completaTerceto(this.pilaTerceto.pop(),nt+1);}
+{tercetos.completaTerceto(this.pilaTerceto.pop(),nt+1);tercetos.creaTerceto("label"+Integer.toString(nt+1),"-","-","");}
 break;
 case 23:
 //#line 53 "GramaticaTP3.Y"
@@ -740,7 +740,7 @@ case 26:
 break;
 case 27:
 //#line 62 "GramaticaTP3.Y"
-{this.pilaTerceto.push(tercetos.getCantidadTercetos()+1);}
+{this.pilaTerceto.push(tercetos.getCantidadTercetos()+1);tercetos.creaTerceto("label"+Integer.toString(tercetos.getCantidadTercetos()+1),"-","-","");}
 break;
 case 28:
 //#line 62 "GramaticaTP3.Y"
@@ -750,157 +750,158 @@ case 28:
 break;
 case 29:
 //#line 67 "GramaticaTP3.Y"
-{nt=tercetos.creaTerceto("BF",val_peek(1).sval,"-",""); 	
-																					 yyval.sval = "["+nt+"]"; 
-																					 this.pilaTerceto.push(nt);tercetos.creaTerceto("label"+Integer.toString(nt),"-","-","");}
+{
+																					nt=tercetos.creaTerceto("BF",val_peek(1).sval,"-",""); 	
+																					yyval.sval = "["+nt+"]"; 
+																					this.pilaTerceto.push(nt);}
 break;
 case 30:
-//#line 70 "GramaticaTP3.Y"
+//#line 71 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera DO");}
 break;
 case 31:
-//#line 71 "GramaticaTP3.Y"
+//#line 72 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera condicion para evaluar");}
 break;
 case 35:
-//#line 79 "GramaticaTP3.Y"
+//#line 80 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera BEGIN");}
 break;
 case 36:
-//#line 80 "GramaticaTP3.Y"
+//#line 81 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera alguna sentencia al menos");}
 break;
 case 37:
-//#line 81 "GramaticaTP3.Y"
+//#line 82 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera END");}
 break;
 case 38:
-//#line 84 "GramaticaTP3.Y"
+//#line 85 "GramaticaTP3.Y"
 {nt=tercetos.creaTerceto("PRINTF",val_peek(1).sval.replaceAll("\\s"," ").trim(),"-","");}
 break;
 case 39:
-//#line 85 "GramaticaTP3.Y"
+//#line 86 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas()," se espera ( ");}
 break;
 case 40:
-//#line 86 "GramaticaTP3.Y"
+//#line 87 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas()," se espera ) ");}
 break;
 case 41:
-//#line 89 "GramaticaTP3.Y"
+//#line 90 "GramaticaTP3.Y"
 {tipoOp = verificaTipos(val_peek(2).sval, val_peek(0).sval, lexico.getCantLineas());
 																					 nt=tercetos.creaTerceto(":=",val_peek(2).sval,val_peek(0).sval,tipoOp);
 																					 yyval.sval = "["+nt+"]";}
 break;
 case 42:
-//#line 92 "GramaticaTP3.Y"
+//#line 93 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se desconoce lo que se le asignará luego del =");}
 break;
 case 43:
-//#line 93 "GramaticaTP3.Y"
+//#line 94 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se desconoce la variable a la que se le asignará la linea");}
 break;
 case 44:
-//#line 96 "GramaticaTP3.Y"
+//#line 97 "GramaticaTP3.Y"
 {tipoOp = verificaTipos(val_peek(2).sval,val_peek(0).sval,lexico.getCantLineas()); 
 																					 nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval,tipoOp); 
 																					 yyval.sval = "["+nt+"]";}
 break;
 case 45:
-//#line 99 "GramaticaTP3.Y"
+//#line 100 "GramaticaTP3.Y"
 {tipoOp = verificaTipos(val_peek(2).sval,val_peek(0).sval,lexico.getCantLineas()); 
 																					 nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval,tipoOp); 
 																					 yyval.sval = "["+nt+"]";}
 break;
 case 46:
-//#line 102 "GramaticaTP3.Y"
+//#line 103 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 47:
-//#line 105 "GramaticaTP3.Y"
+//#line 106 "GramaticaTP3.Y"
 {tipoOp = verificaTipos(val_peek(2).sval, val_peek(0).sval, lexico.getCantLineas()); 
 																					 nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval,tipoOp); 
 																					 yyval.sval = "["+nt+"]";}
 break;
 case 48:
-//#line 108 "GramaticaTP3.Y"
+//#line 109 "GramaticaTP3.Y"
 {tipoOp = verificaTipos(val_peek(2).sval, val_peek(0).sval, lexico.getCantLineas()); 
 																					 nt=tercetos.creaTerceto(val_peek(1).sval,val_peek(2).sval,val_peek(0).sval,tipoOp); 
 																					 yyval.sval = "["+nt+"]";}
 break;
 case 49:
-//#line 111 "GramaticaTP3.Y"
+//#line 112 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 50:
-//#line 114 "GramaticaTP3.Y"
-{yyval.sval=val_peek(0).sval;}
-break;
-case 51:
 //#line 115 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
-case 52:
+case 51:
 //#line 116 "GramaticaTP3.Y"
-{nt=tercetos.creaTerceto("*",val_peek(0).sval,"-1_i",""); 
+{yyval.sval=val_peek(0).sval;}
+break;
+case 52:
+//#line 117 "GramaticaTP3.Y"
+{nt=tercetos.creaTerceto("*",val_peek(0).sval,"-1_i","INT"); 
 																					 yyval.sval = "["+nt+"]";}
 break;
 case 53:
-//#line 118 "GramaticaTP3.Y"
+//#line 119 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
 case 54:
-//#line 121 "GramaticaTP3.Y"
+//#line 122 "GramaticaTP3.Y"
 {tipoOp = verificaTipos(val_peek(3).sval, val_peek(1).sval, lexico.getCantLineas());  
 																					 nt=tercetos.creaTerceto(val_peek(2).sval,val_peek(3).sval,val_peek(1).sval,""); 
 																					 yyval.sval = "["+nt+"]";
 																					}
 break;
 case 55:
-//#line 125 "GramaticaTP3.Y"
+//#line 126 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera (");}
 break;
 case 56:
-//#line 126 "GramaticaTP3.Y"
+//#line 127 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera operando");}
 break;
 case 57:
-//#line 127 "GramaticaTP3.Y"
+//#line 128 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera operando para evaluar la condicion");}
 break;
 case 58:
-//#line 128 "GramaticaTP3.Y"
+//#line 129 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera )");}
 break;
 case 59:
-//#line 131 "GramaticaTP3.Y"
-{yyval.sval=val_peek(0).sval;}
-break;
-case 60:
 //#line 132 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
-case 61:
+case 60:
 //#line 133 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
-case 62:
+case 61:
 //#line 134 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
-case 63:
+case 62:
 //#line 135 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
-case 64:
+case 63:
 //#line 136 "GramaticaTP3.Y"
 {yyval.sval=val_peek(0).sval;}
 break;
-case 65:
+case 64:
 //#line 137 "GramaticaTP3.Y"
+{yyval.sval=val_peek(0).sval;}
+break;
+case 65:
+//#line 138 "GramaticaTP3.Y"
 {errores.creaError(lexico.getCantLineas(),"se espera = para realizar comparación");}
 break;
-//#line 827 "Parser.java"
+//#line 828 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####
