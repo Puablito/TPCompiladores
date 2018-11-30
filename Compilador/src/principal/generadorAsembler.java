@@ -176,12 +176,10 @@ public class generadorAsembler {
 
 			String reg=registros.tomaRegistro();
 			if (operacion.equals("+")) {
-				reg=registros.tomaRegistro();
 				codigo.add("	MOV "+reg+", "+op1);
 				codigo.add("	ADD "+reg+", "+op2);
 				varAux = this.getNewVariable(i,this.getTipoVariable(op1));
 				codigo.add("	MOV "+varAux+","+reg);
-				registros.liberaRegistro(reg);
 			}else if (operacion.equals("-")) {
 				codigo.add("	MOV "+reg+", "+op1);
 				codigo.add("	SUB "+reg+", "+op2);
