@@ -134,14 +134,15 @@ public class Principal extends JFrame {
 					//ParserNuestro analizadorSintactico = new ParserNuestro(analizadorLexico); //parser del tp1
 					Parser analizadorSintactico = new Parser(analizadorLexico, tercetos, errores, tablaSimbolosMap);
 					analizadorSintactico.run();
-					//mostrarListaSimbolos();
+					
+					asembler = new generadorAsembler(tablaSimbolosMap,tercetos.getTercetosListado());
+					
 					mostrarMapasimbolos();
 					tercetos.listaTercetos();
 					errores.listarErrores();
-					
-					asembler = new generadorAsembler(tablaSimbolosMap,tercetos.getTercetosListado());
 					asembler.imprimeCodigoPantalla();
 					asembler.imprimeCodigoArchivo(cPath);
+					
 				}
 			}
 		});

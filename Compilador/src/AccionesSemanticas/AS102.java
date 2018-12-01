@@ -13,6 +13,7 @@ public class AS102  extends AccionSemantica {
 		if (palabrasReservadas.containsKey("CAD")) { 
 			tokenInt = palabrasReservadas.get("CAD"); // guardo el valor numerico de la palabra reservada
 			token = new Token(tokenInt, this.tokenString); // arma el token para devolver al parser
+			token.setTokenTipo("STRING");
 		}
 	}
 
