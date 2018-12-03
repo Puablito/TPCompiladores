@@ -24,7 +24,6 @@ public class generadorAsembler {
 		tercetos = tercetosListado;
 		registros = new Registros();
 		creaCabecera(); // Crea el listado de valores de la cabecera
-		generaData(); 
 		creaCodigo(); // Crea el listado de valores del codigo assembler
 		creaData(); // Crea el listado de variables usadas en el codigo assembler
 	}
@@ -44,9 +43,10 @@ public class generadorAsembler {
 		cabecera.add(".data");
 	}
 	
+	/* no se usa mas
 	// Genera la Tabla con todas las VARIABLES que se van a declarar en assembler 
 	public void generaData() {  
-		//Recorro tabla de Simbolos y Guardo en la Tabla de Variables (DATA) 
+		//Recorro tabla de Simbolos 
 		Set<String> mapKeys = TSMap.keySet(); // Obtenemos todas las llaves del mapa.
  
         // Recorremos el mapa por sus llaves e imprimimos sus valores.
@@ -62,20 +62,20 @@ public class generadorAsembler {
         }
 		
 	}
-	
-	// Agerga una variable a la tabla TVariables
+	*/
+	// Agerga una variable a la tabla de simbolos
 	public void agergaVariable(String nombre, String tipo) {
 		ValoresTS val = new ValoresTS();
 		if (tipo != "") {
 			val.setTokenID(0);
 			val.setTokenTipo(tipo);
 		}
-		TVariables.put(nombre, val);
+		TSMap.put(nombre, val);
 	}
 	
 	
 	public boolean existeVariable(String variable) {
-		if (TVariables.containsKey(variable)) {
+		if (TSMap.containsKey(variable)) {
 			return true;
 		}else {
 			return false;
@@ -83,19 +83,22 @@ public class generadorAsembler {
 	}
 	
 	public String getTipoVariable(String variable) {
-		if (TVariables.containsKey(variable)) { // verifica las variables e identificadores
-			ValoresTS vTS = TVariables.get(variable);
+		if (TSMap.containsKey(variable)) { // verifica las variables e identificadores
+			ValoresTS vTS = TSMap.get(variable);
 			return vTS.getTokenTipo();
+		/* esto no va mas ya que solo busca en la tabla de simbolo donde esta todo
 		}else if (TSMap.containsKey(variable+"_i")){ // verifica en tabla de simbolo si es un INT
 			return "INT";
 		}else if (TSMap.containsKey(variable+"_ul")){ // verifica en tabla de simbolo si es un ULONG
 			return "ULONG";
+		*/
 		}
 		return"";
 	}
 	
 	public void creaData() {
 		data = new ArrayList<String>();		
+		/* viejo
 		//Recorro tabla de Simbolos y Guardo en la Tabla de Variables (DATA) 
 		Set<String> TvarKeys = TVariables.keySet(); // Obtenemos todas las llaves del mapa (Tabla de variables).
 		data.add("errorDiv db \"division por cero\", 0");
@@ -115,8 +118,29 @@ public class generadorAsembler {
             	}
             }	
         }
-		
-		
+      	*/
+		//Recorro tabla de Simbolos 
+  		Set<String> mapKeys = TSMap.keySet(); // Obtenemos todas las llaves del mapa.
+  		data.add("errorDiv db \"division por cero\", 0");
+	    // Recorremos el mapa por sus llaves e imprimimos sus valores.
+  		for (String key : mapKeys) {
+  			// Obtenemos el value.
+			ValoresTS vTS = TSMap.get(key);
+			if (vTS.getTokenTipo() != null) { 	// el token es un identificador o constante ya que posee tipo
+				String tipo = vTS.getTokenTipo();
+				// si no es una constante lo agrego a la sección data
+				if ((key.indexOf("_i") == -1) && (key.indexOf("_ul") == -1)){ 
+	            	if (tipo == "INT") {
+	            		data.add("	"+key +" dw 0");		
+	            	}else if (tipo == "ULONG") {
+	            		data.add("	"+key +" dd 0");	
+	            	}else if (tipo == "STRING") {
+	            		data.add("	"+"QUE PONGO?" +" db "+ key +",0");
+	            	}
+				}
+			}	
+  		}
+	
 	}
 	
 	// Crea una variable nueva, la da de alta en DATA y la devuelve
