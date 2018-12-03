@@ -128,7 +128,7 @@ public class generadorAsembler {
 			ValoresTS vTS = TSMap.get(key);
 			if (vTS.getTokenTipo() != null) { 	// el token es un identificador o constante ya que posee tipo
 				String tipo = vTS.getTokenTipo();
-				// si no es una constante lo agrego a la sección data
+				// si no es una constante lo agrego a la secciï¿½n data
 				if ((key.indexOf("_i") == -1) && (key.indexOf("_ul") == -1)){ 
 	            	if (tipo == "INT") {
 	            		data.add("	"+key +" dw 0");		
@@ -160,6 +160,12 @@ public class generadorAsembler {
 		String op1Ant = "";
 		String op2Ant = "";
 		
+		String varAuxEAX ="";
+		String varAuxEBX ="";
+		String varAuxECX ="";
+		String varAuxEDX ="";
+		boolean forzarEax = false; // se utiliza para forzar la utilizacion de EAX en la proxima iteracion, por ejemplo MUL y DIV
+		
 		codigo = new ArrayList<String>();
 		codigo.add(".code");
 		codigo.add("start:");
@@ -179,6 +185,7 @@ public class generadorAsembler {
 			String op2 = elemento[2];		// Operador 2
 			String nroLabel1="";
 			String nroLabel2="";
+			String tipoResultado = elemento[3];	
 			// Verifico si es una referencia a otro terceto y recupero la variable donde se guarda el resultado
 			
 			if ('[' == op1.charAt(0)) { 
@@ -210,40 +217,136 @@ public class generadorAsembler {
 				varAux = this.getNewVariable(i,this.getTipoVariable(op1));
 				codigo.add("	MOV "+varAux+","+reg);
 			}else if (operacion.equals("*")) {
-				codigo.add("	MOV "+reg+", "+op1);
-				codigo.add("	MUL "+reg+", "+op2);
-				varAux = this.getNewVariable(i,this.getTipoVariable(op1));
-				codigo.add("	MOV "+varAux+","+reg);
+			
+				//Para que luego de multiplicar si viene asignacion utilice EAX y no otro registro, sino pierdo el resultado.
+				forzarEax= true;
+				
+				// IF tipoResultado = Ulong -> utilizo EAX y EDX ----> EDX:EAX:=EAX*Op
+				if(tipoResultado.equals("ULONG")) {
+					
+					//Copio el contenido de los registros para no perder el valor con el que venÃ­an.
+					varAuxEAX = this.getNewVariable(i,tipoResultado);
+					//sino muevo el indice me quedan dos variables con el mismo nombre. Ver sino de utilizar otra variable auxiliar
+					i++;
+					varAuxEDX = this.getNewVariable(i,tipoResultado);
+				
+					// las guardo en variables, por ahora.
+					codigo.add("	MOV "+varAuxEAX+", EAX");
+					codigo.add("	MOV "+varAuxEDX+", EDX");
+				
+					// Llevo el valor a multiplicar a EAX, y limpio EDX.
+					codigo.add("	MOV EDX, 0 ");
+					codigo.add("	MOV EAX, "+op1);
+					//Multiplico: el resultado queda en EDX:EAX
+					codigo.add("	MUL "+op2);
+					
+				}else {
+					
+					//else -> como es multiplicacion entera utilizo DX y AX ---> DX:AX:=AX*Op
+					varAuxEAX = this.getNewVariable(i,tipoResultado);
+				
+					// guardo en variable el valor EAX y DX se extiende con el comando CWD de ASSEMBLER.
+					codigo.add("	MOV "+varAuxEAX+", EAX");
+					codigo.add("	MOV AL, "+op1);
+					codigo.add("	CWD ");
+					//Multiplico: el resultado queda en DX:AX. Ver si siempre va IMUL o hay que preguntar por su signo
+					codigo.add("	IMUL "+op2);
+					
+					//varAux = this.getNewVariable(i,this.getTipoVariable(op1));
+					//codigo.add("	MOV "+varAux+","+reg);
+				}
+				
 			}else if (operacion.equals("/")) {
-				codigo.add("	MOV "+reg+", "+op1);
-				codigo.add("	CMP "+op2+",0");
-				codigo.add("	JE errorCero");
-				codigo.add("	DIV "+reg+", "+op2);
-				varAux = this.getNewVariable(i,this.getTipoVariable(op1));
-				codigo.add("	MOV "+varAux+","+reg);
+				
+				forzarEax= true;
+				// Ulong -> utilizo EAX y EDX ---->   EAX:=EDX:EAX / Op y en EDX:=Resto
+				if (tipoResultado.equals("ULONG")) {
+				
+					varAuxEAX = this.getNewVariable(i,tipoResultado);
+					i++;
+					varAuxEDX = this.getNewVariable(i,tipoResultado);
+					// las guardo en variables, por ahora.
+					codigo.add("	MOV "+varAuxEAX+", EAX");
+					codigo.add("	MOV "+varAuxEDX+", EDX");
+					// Llevo el valor a dividir a EAX, y limpio EDX.
+					codigo.add("	MOV EDX, 0 ");
+					codigo.add("	MOV EAX, "+op1);
+					//Valido Division por cero
+					codigo.add("	CMP "+op2+",0");
+					codigo.add("	JE errorCero");
+					//Divido: el resultado queda en EAX y el resto en EDX
+					codigo.add("	DIV "+op2);
+					
+				} else {
+					
+					//else -> como es division entera con signo utilizo DX y AX ---> DX:AX:=AX*Op
+					varAuxEAX = this.getNewVariable(i,tipoResultado);
+					codigo.add("	MOV "+varAuxEAX+", EAX");
+					codigo.add("	MOV AX, "+op1);
+					//Valido Division por cero
+					codigo.add("	CMP "+op2+",0");
+					codigo.add("	JE errorCero");
+					//Divido: el resultado queda en AX y el resto en DX. Ver si hace falta validar signo para hacer DIV o IDIV(se deja por defecto) 
+					codigo.add("	IDIV "+op2);
+					
+				}
+				
+				//codigo.add("	MOV "+varAux+","+reg);
+				
 			}else if (operacion.equals(":=")) {
-				codigo.add("	MOV "+reg+", "+op2);
-				codigo.add("	MOV "+op1+","+reg);
+				
+				//Si viene de una MUL o DIV debo utilizar EAX derecho que es donde tengo el resultado
+				if (forzarEax) {
+					codigo.add("	MOV "+op1+"," + (tipoResultado.equals("ULONG")?"EAX":"AX"));
+					forzarEax = false;
+				}else {
+					codigo.add("	MOV "+reg+", "+op2);
+					codigo.add("	MOV "+op1+","+reg);
+				}	
+				
 			}else if (operacion.equals("PRINTF")) {
 				varAux = this.getNewVariable(i,"STRING");
 				codigo.add("	MOV "+varAux+", "+op1);
 				codigo.add("	invoke MessageBox, NULL, addr "+ varAux +", addr "+ varAux +", MB_OK");
 			}else if (operacion.equals("BF")) {
+				
 				codigo.add("	CMP "+op1Ant+", "+op2Ant);
-				// Genero las etiquetas de los saltos
-				if (operacionAnt.equals(">")) {
-					codigo.add("	JLE label"+nroLabel2);
-				}else if (operacionAnt.equals(">=")) {
-					codigo.add("	JL label"+nroLabel2);
-				}else if (operacionAnt.equals("<")) {
-					codigo.add("	JGE label"+nroLabel2);
-				}else if (operacionAnt.equals("<=")) {
-					codigo.add("	JG label"+nroLabel2);
-				}else if (operacionAnt.equals("==")) {
-					codigo.add("	JNE label"+nroLabel2);
-				}else if (operacionAnt.equals("<>")) {
-					codigo.add("	JE label"+nroLabel2);
-				}		
+				
+				// Genero las etiquetas de los saltos para ULONG sin signo
+				if ( tipoResultado.equals("ULONG") || this.getTipoVariable(op1Ant).equals("ULONG") || this.getTipoVariable(op2Ant).equals("ULONG") ){
+					
+					if (operacionAnt.equals(">")) {
+						codigo.add("	JBE label"+nroLabel2);
+					}else if (operacionAnt.equals(">=")) {
+						codigo.add("	JB label"+nroLabel2);
+					}else if (operacionAnt.equals("<")) {
+						codigo.add("	JAE label"+nroLabel2);
+					}else if (operacionAnt.equals("<=")) {
+						codigo.add("	JA label"+nroLabel2);
+					}else if (operacionAnt.equals("==")) {
+						codigo.add("	JNE label"+nroLabel2);
+					}else if (operacionAnt.equals("<>")) {
+						codigo.add("	JE label"+nroLabel2);
+					}	
+					
+				}else {
+					
+					if (operacionAnt.equals(">")) {
+						codigo.add("	JLE label"+nroLabel2);
+					}else if (operacionAnt.equals(">=")) {
+						codigo.add("	JL label"+nroLabel2);
+					}else if (operacionAnt.equals("<")) {
+						codigo.add("	JGE label"+nroLabel2);
+					}else if (operacionAnt.equals("<=")) {
+						codigo.add("	JG label"+nroLabel2);
+					}else if (operacionAnt.equals("==")) {
+						codigo.add("	JNE label"+nroLabel2);
+					}else if (operacionAnt.equals("<>")) {
+						codigo.add("	JE label"+nroLabel2);
+					}	
+					
+				}
+				
 			}else if (operacion.equals("BI")) {
 				codigo.add("	JMP label"+nroLabel1);
 			}else if (operacion.indexOf("label")!=-1) {
@@ -295,7 +398,7 @@ public class generadorAsembler {
 			System.out.println(string);
 		}
 		
-		//Recorro el código
+		//Recorro el cï¿½digo
 		for (Iterator<String> iterator = codigo.iterator(); iterator.hasNext();) {
 			String string = iterator.next();
 			System.out.println(string);
