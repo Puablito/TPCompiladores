@@ -128,14 +128,14 @@ public class generadorAsembler {
 			ValoresTS vTS = TSMap.get(key);
 			if (vTS.getTokenTipo() != null) { 	// el token es un identificador o constante ya que posee tipo
 				String tipo = vTS.getTokenTipo();
-				// si no es una constante lo agrego a la secci�n data
+				// si no es una constante lo agrego a la seccion data
 				if ((key.indexOf("_i") == -1) && (key.indexOf("_ul") == -1)){ 
 	            	if (tipo == "INT") {
-	            		data.add("	"+key +" dw 0");		
+	            		data.add("	_"+key +" dw 0");		//Agrega guion
 	            	}else if (tipo == "ULONG") {
-	            		data.add("	"+key +" dd 0");	
+	            		data.add("	_"+key +" dd 0");		//Agrega guion
 	            	}else if (tipo == "STRING") {
-	            		data.add("	"+"QUE PONGO?" +" db "+ key +",0");
+	            		data.add("	"+"QUE_PONGO?" +" db "+ key +",0");
 	            	}
 				}
 			}	
@@ -148,7 +148,8 @@ public class generadorAsembler {
 		String varAux = "@v"+indice;
 		boolean existeVar = this.existeVariable(varAux);
 		if (existeVar == false) {
-			this.agergaVariable(varAux,tipo);
+			this.agergaVariable(varAux,tipo); // se agrega a la Tabla de Simbolos sin el _
+			varAux = "_"+varAux;
 		}
 		return varAux;
 	}
@@ -306,7 +307,6 @@ public class generadorAsembler {
 				
 			}else if (operacion.equals("PRINTF")) {
 				varAux = this.getNewVariable(i,"STRING");
-				codigo.add("	MOV "+varAux+", "+op1);
 				codigo.add("	invoke MessageBox, NULL, addr "+ varAux +", addr "+ varAux +", MB_OK");
 			}else if (operacion.equals("BF")) {
 				
@@ -377,7 +377,7 @@ public class generadorAsembler {
 			operador = operador.replace("_i", "");
     	}else if (operador.indexOf("_ul") != -1) {
     		operador = operador.replace("_ul", "");
-    	}else if (existeVariable("_"+operador)){
+    	}else if (existeVariable(operador)){
     		operador = "_"+operador;
     	}		
 		return operador;
