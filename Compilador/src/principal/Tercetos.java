@@ -25,7 +25,7 @@ public class Tercetos {
 		terceto[0] = op1;
 		terceto[1] = op2;
 		terceto[2] = op3;
-		terceto[3] = tipo;
+		terceto[3] = (tipo == null?"":tipo);
 		terceto[4] = "";
 		// Guardo la variable donde se guardara el resultado de la operacion
 		if (tipo != "") {

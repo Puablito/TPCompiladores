@@ -23,6 +23,7 @@ public class generadorAsembler {
 		TSMap = tablaSimbolosMap;
 		tercetos = tercetosListado;
 		registros = new Registros();
+		data = new ArrayList<String>();	
 		creaCabecera(); // Crea el listado de valores de la cabecera
 		creaCodigo(); // Crea el listado de valores del codigo assembler
 		creaData(); // Crea el listado de variables usadas en el codigo assembler
@@ -97,7 +98,7 @@ public class generadorAsembler {
 	}
 	
 	public void creaData() {
-		data = new ArrayList<String>();		
+			
 		/* viejo
 		//Recorro tabla de Simbolos y Guardo en la Tabla de Variables (DATA) 
 		Set<String> TvarKeys = TVariables.keySet(); // Obtenemos todas las llaves del mapa (Tabla de variables).
@@ -134,8 +135,8 @@ public class generadorAsembler {
 	            		data.add("	_"+key +" dw 0");		//Agrega guion
 	            	}else if (tipo == "ULONG") {
 	            		data.add("	_"+key +" dd 0");		//Agrega guion
-	            	}else if (tipo == "STRING") {
-	            		data.add("	"+"QUE_PONGO?" +" db "+ key +",0");
+	            	//}else if (tipo == "STRING") {
+	            	//	data.add("	"+"QUE_PONGO?" +" db "+ key +",0");
 	            	}
 				}
 			}	
@@ -201,22 +202,53 @@ public class generadorAsembler {
 			}
 			
 			// Si es una CONSTANTE le eliminamos el sufijo y si es IDENTIFICADOR agrega el guion
+			String tipoOp1 = this.getTipoVariable(op1);
+			String tipoOp2 = this.getTipoVariable(op2);
+			
 			op1 = eliminaSufijo_AgregaGuion(op1);
 			op2 = eliminaSufijo_AgregaGuion(op2);
 			
 			// Genero codigo para las operaciones
 
 			String reg=registros.tomaRegistro();
+			String regDW = reg.replace("E","");
+			
 			if (operacion.equals("+")) {
-				codigo.add("	MOV "+reg+", "+op1);
-				codigo.add("	ADD "+reg+", "+op2);
-				varAux = this.getNewVariable(i,this.getTipoVariable(op1));
-				codigo.add("	MOV "+varAux+","+reg);
+			
+				//SUMA para ULONG: utilizo todo el registro, por ejemplo EAX
+				if(tipoResultado.equals("ULONG")) {
+				
+					codigo.add("	MOV "+reg+", "+op1);
+					codigo.add("	ADD "+reg+", "+op2);
+					varAux = this.getNewVariable(i,tipoOp1);
+					codigo.add("	MOV "+varAux+","+reg);
+					
+				}else{
+					//SUMA para INT: utilizo registro DW, por ejemplo AX
+					codigo.add("	MOV "+regDW+", "+op1);
+					codigo.add("	ADD "+regDW+", "+op2);
+					varAux = this.getNewVariable(i,tipoOp1);
+					codigo.add("	MOV "+varAux+","+regDW);
+				}
+				
 			}else if (operacion.equals("-")) {
-				codigo.add("	MOV "+reg+", "+op1);
-				codigo.add("	SUB "+reg+", "+op2);
-				varAux = this.getNewVariable(i,this.getTipoVariable(op1));
-				codigo.add("	MOV "+varAux+","+reg);
+				
+				//RESTA para ULONG: utilizo todo el registro, por ejemplo EAX
+				if(tipoResultado.equals("ULONG")) {
+					
+					codigo.add("	MOV "+reg+", "+op1);
+					codigo.add("	SUB "+reg+", "+op2);
+					varAux = this.getNewVariable(i,tipoOp1);
+					codigo.add("	MOV "+varAux+","+reg);
+					
+				}else{
+					//SUMA para INT: utilizo registro DW, por ejemplo AX
+					codigo.add("	MOV "+reg+", "+op1);
+					codigo.add("	SUB "+reg+", "+op2);
+					varAux = this.getNewVariable(i,tipoOp1);
+					codigo.add("	MOV "+varAux+","+reg);
+				}
+				
 			}else if (operacion.equals("*")) {
 			
 				//Para que luego de multiplicar si viene asignacion utilice EAX y no otro registro, sino pierdo el resultado.
@@ -301,13 +333,19 @@ public class generadorAsembler {
 					codigo.add("	MOV "+op1+"," + (tipoResultado.equals("ULONG")?"EAX":"AX"));
 					forzarEax = false;
 				}else {
-					codigo.add("	MOV "+reg+", "+op2);
-					codigo.add("	MOV "+op1+","+reg);
+					if(tipoResultado.equals("ULONG")) {
+						codigo.add("	MOV "+reg+", "+op2);
+						codigo.add("	MOV "+op1+","+reg);
+					}else {
+						codigo.add("	MOV "+regDW+", "+op2);
+						codigo.add("	MOV "+op1+","+regDW);
+					}
+					
 				}	
 				
 			}else if (operacion.equals("PRINTF")) {
-				varAux = this.getNewVariable(i,"STRING");
-				codigo.add("	invoke MessageBox, NULL, addr "+ varAux +", addr "+ varAux +", MB_OK");
+				codigo.add("	invoke MessageBox, NULL, addr _"+ elemento[4] +", addr _"+ elemento[4] +", MB_OK");
+				data.add("	_"+ elemento[4] +" db "+ op1.replaceFirst("_", "") +",0");
 			}else if (operacion.equals("BF")) {
 				
 				codigo.add("	CMP "+op1Ant+", "+op2Ant);

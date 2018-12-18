@@ -777,7 +777,7 @@ case 37:
 break;
 case 38:
 //#line 85 "GramaticaTP3.Y"
-{nt=tercetos.creaTerceto("PRINTF",val_peek(1).sval.replaceAll("\\s"," ").trim(),"-","");}
+{nt=tercetos.creaTerceto("PRINTF",val_peek(1).sval.replaceAll("\\s"," ").trim(),"-","STRING");}
 break;
 case 39:
 //#line 86 "GramaticaTP3.Y"
