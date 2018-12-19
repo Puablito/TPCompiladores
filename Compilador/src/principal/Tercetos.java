@@ -29,7 +29,7 @@ public class Tercetos {
 		terceto[4] = "";
 		// Guardo la variable donde se guardara el resultado de la operacion
 		if (tipo != "") {
-			terceto[4] = "@var"+Integer.toString(cantidadTercetos+1);
+			terceto[4] = "@res"+Integer.toString(cantidadTercetos+1);
 		}
 		
 		

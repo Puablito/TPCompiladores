@@ -44,26 +44,6 @@ public class generadorAsembler {
 		cabecera.add(".data");
 	}
 	
-	/* no se usa mas
-	// Genera la Tabla con todas las VARIABLES que se van a declarar en assembler 
-	public void generaData() {  
-		//Recorro tabla de Simbolos 
-		Set<String> mapKeys = TSMap.keySet(); // Obtenemos todas las llaves del mapa.
- 
-        // Recorremos el mapa por sus llaves e imprimimos sus valores.
-        for (String key : mapKeys) {
-            // Obtenemos el value.
-            ValoresTS vTS = TSMap.get(key);
-            if (vTS.getTokenTipo() != null) { 	// el token es un identificador o constante ya que posee tipo
-            	// Solo guardo los identificadores y descarto las constantes
-            	if ((key.indexOf("_i") == -1) && (key.indexOf("_ul") == -1)){ 
-            		this.agergaVariable("_"+key, vTS.getTokenTipo());
-            	}
-            }	
-        }
-		
-	}
-	*/
 	// Agerga una variable a la tabla de simbolos
 	public void agergaVariable(String nombre, String tipo) {
 		ValoresTS val = new ValoresTS();
@@ -87,42 +67,14 @@ public class generadorAsembler {
 		if (TSMap.containsKey(variable)) { // verifica las variables e identificadores
 			ValoresTS vTS = TSMap.get(variable);
 			return vTS.getTokenTipo();
-		/* esto no va mas ya que solo busca en la tabla de simbolo donde esta todo
-		}else if (TSMap.containsKey(variable+"_i")){ // verifica en tabla de simbolo si es un INT
-			return "INT";
-		}else if (TSMap.containsKey(variable+"_ul")){ // verifica en tabla de simbolo si es un ULONG
-			return "ULONG";
-		*/
 		}
 		return"";
 	}
 	
 	public void creaData() {
-			
-		/* viejo
-		//Recorro tabla de Simbolos y Guardo en la Tabla de Variables (DATA) 
-		Set<String> TvarKeys = TVariables.keySet(); // Obtenemos todas las llaves del mapa (Tabla de variables).
-		data.add("errorDiv db \"division por cero\", 0");
-        // Recorremos el mapa por sus llaves e imprimimos sus valores.
-        for (String key : TvarKeys) {
-            // Obtenemos el value.
-            ValoresTS vTS = TVariables.get(key);
-            if (vTS.getTokenTipo() != null) { 	// el token es un identificador o constante ya que posee tipo
-            	String tipo = vTS.getTokenTipo();
-            	
-            	if (tipo == "INT") {
-            		data.add("	"+key +" dw 0");		// ver si los tipos ASSEMBLER estan correctos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            	}else if (tipo == "ULONG") {
-            		data.add("	"+key +" dd 0");		// ver si los tipos ASSEMBLER estan correctos!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            	}else if (tipo == "STRING") {
-            		data.add("	"+key +" db 0");
-            	}
-            }	
-        }
-      	*/
 		//Recorro tabla de Simbolos 
   		Set<String> mapKeys = TSMap.keySet(); // Obtenemos todas las llaves del mapa.
-  		data.add("errorDiv db \"division por cero\", 0");
+  		data.add("	errorDiv db \"division por cero\", 0");
 	    // Recorremos el mapa por sus llaves e imprimimos sus valores.
   		for (String key : mapKeys) {
   			// Obtenemos el value.
@@ -135,8 +87,6 @@ public class generadorAsembler {
 	            		data.add("	_"+key +" dw 0");		//Agrega guion
 	            	}else if (tipo == "ULONG") {
 	            		data.add("	_"+key +" dd 0");		//Agrega guion
-	            	//}else if (tipo == "STRING") {
-	            	//	data.add("	"+"QUE_PONGO?" +" db "+ key +",0");
 	            	}
 				}
 			}	
@@ -161,6 +111,7 @@ public class generadorAsembler {
 		String operacionAnt = "";
 		String op1Ant = "";
 		String op2Ant = "";
+		String tipoResultadoAnt="";
 		
 		String varAuxEAX ="";
 		String varAuxEBX ="";
@@ -187,7 +138,7 @@ public class generadorAsembler {
 			String op2 = elemento[2];		// Operador 2
 			String nroLabel1="";
 			String nroLabel2="";
-			String tipoResultado = elemento[3];	
+			String tipoResultado = elemento[3];	//Tipo de datos del resultado
 			// Verifico si es una referencia a otro terceto y recupero la variable donde se guarda el resultado
 			
 			if ('[' == op1.charAt(0)) { 
@@ -201,18 +152,18 @@ public class generadorAsembler {
 				op2 = "@v"+nroTerceto;
 			}
 			
-			// Si es una CONSTANTE le eliminamos el sufijo y si es IDENTIFICADOR agrega el guion
+			// Guardo los tipos de los operadores
 			String tipoOp1 = this.getTipoVariable(op1);
 			String tipoOp2 = this.getTipoVariable(op2);
 			
+			// Si es una CONSTANTE le eliminamos el sufijo y si es IDENTIFICADOR agrega el guion
 			op1 = eliminaSufijo_AgregaGuion(op1);
 			op2 = eliminaSufijo_AgregaGuion(op2);
 			
-			// Genero codigo para las operaciones
-
-			String reg=registros.tomaRegistro();
-			String regDW = reg.replace("E","");
+			String reg=registros.tomaRegistro(); //Registro de 32bit Ej: EAX
+			String regDW = reg.replace("E",""); // Registro de 16bit Ej: AX
 			
+			// Genero codigo para las operaciones
 			if (operacion.equals("+")) {
 			
 				//SUMA para ULONG: utilizo todo el registro, por ejemplo EAX
@@ -242,7 +193,7 @@ public class generadorAsembler {
 					codigo.add("	MOV "+varAux+","+reg);
 					
 				}else{
-					//SUMA para INT: utilizo registro DW, por ejemplo AX
+					//RESTA para INT: utilizo registro DW, por ejemplo AX
 					codigo.add("	MOV "+reg+", "+op1);
 					codigo.add("	SUB "+reg+", "+op2);
 					varAux = this.getNewVariable(i,tipoOp1);
@@ -256,17 +207,17 @@ public class generadorAsembler {
 				
 				// IF tipoResultado = Ulong -> utilizo EAX y EDX ----> EDX:EAX:=EAX*Op
 				if(tipoResultado.equals("ULONG")) {
-					
+					/* VER QUE HACER PORQUE GENERA CONFLICTO CON LA NUMERACION DE LAS VAR AUXILIARES
 					//Copio el contenido de los registros para no perder el valor con el que venían.
 					varAuxEAX = this.getNewVariable(i,tipoResultado);
 					//sino muevo el indice me quedan dos variables con el mismo nombre. Ver sino de utilizar otra variable auxiliar
 					i++;
 					varAuxEDX = this.getNewVariable(i,tipoResultado);
-				
+					
 					// las guardo en variables, por ahora.
 					codigo.add("	MOV "+varAuxEAX+", EAX");
 					codigo.add("	MOV "+varAuxEDX+", EDX");
-				
+					*/
 					// Llevo el valor a multiplicar a EAX, y limpio EDX.
 					codigo.add("	MOV EDX, 0 ");
 					codigo.add("	MOV EAX, "+op1);
@@ -284,9 +235,7 @@ public class generadorAsembler {
 					codigo.add("	CWD ");
 					//Multiplico: el resultado queda en DX:AX. Ver si siempre va IMUL o hay que preguntar por su signo
 					codigo.add("	IMUL "+op2);
-					
-					//varAux = this.getNewVariable(i,this.getTipoVariable(op1));
-					//codigo.add("	MOV "+varAux+","+reg);
+
 				}
 				
 			}else if (operacion.equals("/")) {
@@ -294,13 +243,14 @@ public class generadorAsembler {
 				forzarEax= true;
 				// Ulong -> utilizo EAX y EDX ---->   EAX:=EDX:EAX / Op y en EDX:=Resto
 				if (tipoResultado.equals("ULONG")) {
-				
+					/* VER QUE HACER PORQUE GENERA CONFLICTO CON LA NUMERACION DE LAS VAR AUXILIARES
 					varAuxEAX = this.getNewVariable(i,tipoResultado);
 					i++;
 					varAuxEDX = this.getNewVariable(i,tipoResultado);
 					// las guardo en variables, por ahora.
 					codigo.add("	MOV "+varAuxEAX+", EAX");
 					codigo.add("	MOV "+varAuxEDX+", EDX");
+					*/
 					// Llevo el valor a dividir a EAX, y limpio EDX.
 					codigo.add("	MOV EDX, 0 ");
 					codigo.add("	MOV EAX, "+op1);
@@ -324,8 +274,6 @@ public class generadorAsembler {
 					
 				}
 				
-				//codigo.add("	MOV "+varAux+","+reg);
-				
 			}else if (operacion.equals(":=")) {
 				
 				//Si viene de una MUL o DIV debo utilizar EAX derecho que es donde tengo el resultado
@@ -347,9 +295,14 @@ public class generadorAsembler {
 				codigo.add("	invoke MessageBox, NULL, addr _"+ elemento[4] +", addr _"+ elemento[4] +", MB_OK");
 				data.add("	_"+ elemento[4] +" db "+ op1.replaceFirst("_", "") +",0");
 			}else if (operacion.equals("BF")) {
-				
-				codigo.add("	CMP "+op1Ant+", "+op2Ant);
-				
+				// Verifico el tipo de los operadores de la comparacion para utilizar los registros correctos
+				if(tipoResultadoAnt.equals("ULONG")) {
+					codigo.add("	MOV "+reg+", "+op1Ant);
+					codigo.add("	CMP "+reg+", "+op2Ant);
+				}else {
+					codigo.add("	MOV "+regDW+", "+op1Ant);
+					codigo.add("	CMP "+regDW+", "+op2Ant);
+				}
 				// Genero las etiquetas de los saltos para ULONG sin signo
 				if ( tipoResultado.equals("ULONG") || this.getTipoVariable(op1Ant).equals("ULONG") || this.getTipoVariable(op2Ant).equals("ULONG") ){
 					
@@ -398,6 +351,7 @@ public class generadorAsembler {
 			operacionAnt = operacion;
 			op1Ant = op1;
 			op2Ant = op2;
+			tipoResultadoAnt = tipoResultado;
 			
 		}
 		codigo.add("	JMP fin");

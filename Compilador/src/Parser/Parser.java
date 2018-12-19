@@ -853,7 +853,7 @@ break;
 case 54:
 //#line 122 "GramaticaTP3.Y"
 {tipoOp = verificaTipos(val_peek(3).sval, val_peek(1).sval, lexico.getCantLineas());  
-																					 nt=tercetos.creaTerceto(val_peek(2).sval,val_peek(3).sval,val_peek(1).sval,""); 
+																					 nt=tercetos.creaTerceto(val_peek(2).sval,val_peek(3).sval,val_peek(1).sval,tipoOp); 
 																					 yyval.sval = "["+nt+"]";
 																					}
 break;
