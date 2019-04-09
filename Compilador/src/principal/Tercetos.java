@@ -30,8 +30,14 @@ public class Tercetos {
 		// Guardo la variable donde se guardara el resultado de la operacion
 		if (tipo != "") {
 			terceto[4] = "@res"+Integer.toString(cantidadTercetos+1);
-		}
-		
+		} else {
+			if(cantidadTercetos !=0) {
+				String[] elementoUltimo = this.getTerceto(cantidadTercetos-1);
+				if (op1.equals(elementoUltimo[0]) && op2.equals(elementoUltimo[1]) && op3.equals(elementoUltimo[2])) {
+					return tercetosListado.size(); //retorna la posicion del terceto
+				}
+			}
+		}		
 		
 		tercetosListado.add(terceto);
 		return tercetosListado.size(); //retorna la posicion del terceto 

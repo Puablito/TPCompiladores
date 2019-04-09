@@ -720,7 +720,7 @@ case 19:
 break;
 case 21:
 //#line 52 "GramaticaTP3.Y"
-{tercetos.completaTerceto(this.pilaTerceto.pop(),nt+1);tercetos.creaTerceto("label"+Integer.toString(tercetos.getCantidadTercetos()+1),"-","-","");}
+{tercetos.completaTerceto(this.pilaTerceto.pop(),nt+1);tercetos.creaTerceto("label"+Integer.toString(nt+1),"-","-","");}
 break;
 case 23:
 //#line 53 "GramaticaTP3.Y"
@@ -746,7 +746,7 @@ case 28:
 //#line 62 "GramaticaTP3.Y"
 {yyval.sval = "["+nt+"]"; 
 																													 tercetos.completaTerceto(this.pilaTerceto.pop(),nt+2); 
-																													 nt=tercetos.creaTerceto("BI", "["+Integer.toString(this.pilaTerceto.pop())+"]","-","");tercetos.creaTerceto("label"+Integer.toString(nt+1),"-","-","");}
+																													 nt=tercetos.creaTerceto("BI", "["+Integer.toString(this.pilaTerceto.pop())+"]","-","");tercetos.creaTerceto("label"+Integer.toString(nt),"-","-","");}
 break;
 case 29:
 //#line 67 "GramaticaTP3.Y"
