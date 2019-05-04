@@ -207,17 +207,7 @@ public class generadorAsembler {
 				
 				// IF tipoResultado = Ulong -> utilizo EAX y EDX ----> EDX:EAX:=EAX*Op
 				if(tipoResultado.equals("ULONG")) {
-					/* VER QUE HACER PORQUE GENERA CONFLICTO CON LA NUMERACION DE LAS VAR AUXILIARES
-					//Copio el contenido de los registros para no perder el valor con el que venían.
-					varAuxEAX = this.getNewVariable(i,tipoResultado);
-					//sino muevo el indice me quedan dos variables con el mismo nombre. Ver sino de utilizar otra variable auxiliar
-					i++;
-					varAuxEDX = this.getNewVariable(i,tipoResultado);
-					
-					// las guardo en variables, por ahora.
-					codigo.add("	MOV "+varAuxEAX+", EAX");
-					codigo.add("	MOV "+varAuxEDX+", EDX");
-					*/
+
 					// Llevo el valor a multiplicar a EAX, y limpio EDX.
 					codigo.add("	MOV EDX, 0 ");
 					codigo.add("	MOV EAX, "+op1);
@@ -243,14 +233,7 @@ public class generadorAsembler {
 				forzarEax= true;
 				// Ulong -> utilizo EAX y EDX ---->   EAX:=EDX:EAX / Op y en EDX:=Resto
 				if (tipoResultado.equals("ULONG")) {
-					/* VER QUE HACER PORQUE GENERA CONFLICTO CON LA NUMERACION DE LAS VAR AUXILIARES
-					varAuxEAX = this.getNewVariable(i,tipoResultado);
-					i++;
-					varAuxEDX = this.getNewVariable(i,tipoResultado);
-					// las guardo en variables, por ahora.
-					codigo.add("	MOV "+varAuxEAX+", EAX");
-					codigo.add("	MOV "+varAuxEDX+", EDX");
-					*/
+
 					// Llevo el valor a dividir a EAX, y limpio EDX.
 					codigo.add("	MOV EDX, 0 ");
 					codigo.add("	MOV EAX, "+op1);
