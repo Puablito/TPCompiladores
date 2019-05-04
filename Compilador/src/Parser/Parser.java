@@ -777,7 +777,7 @@ case 37:
 break;
 case 38:
 //#line 85 "GramaticaTP3.Y"
-{nt=tercetos.creaTerceto("PRINTF",val_peek(1).sval.replaceAll("\\s"," ").trim(),"-","STRING");}
+{nt=tercetos.creaTerceto("PRINTF",val_peek(1).sval.replaceAll("\\s"," ").trim(),"-","STRING");nt=nt-1;}
 break;
 case 39:
 //#line 86 "GramaticaTP3.Y"
@@ -791,7 +791,7 @@ case 41:
 //#line 90 "GramaticaTP3.Y"
 {tipoOp = verificaTipos(val_peek(2).sval, val_peek(0).sval, lexico.getCantLineas());
 																					 nt=tercetos.creaTerceto(":=",val_peek(2).sval,val_peek(0).sval,tipoOp);
-																					 yyval.sval = "["+nt+"]";}
+																					 yyval.sval = "["+nt+"]";nt=nt-1;}
 break;
 case 42:
 //#line 93 "GramaticaTP3.Y"
