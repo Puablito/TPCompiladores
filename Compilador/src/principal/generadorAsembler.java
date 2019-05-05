@@ -194,10 +194,10 @@ public class generadorAsembler {
 					
 				}else{
 					//RESTA para INT: utilizo registro DW, por ejemplo AX
-					codigo.add("	MOV "+reg+", "+op1);
-					codigo.add("	SUB "+reg+", "+op2);
+					codigo.add("	MOV "+regDW+", "+op1);
+					codigo.add("	SUB "+regDW+", "+op2);
 					varAux = this.getNewVariable(i,tipoOp1);
-					codigo.add("	MOV "+varAux+","+reg);
+					codigo.add("	MOV "+varAux+","+regDW);
 				}
 				
 			}else if (operacion.equals("*")) {
@@ -245,7 +245,7 @@ public class generadorAsembler {
 					
 				} else {
 					
-					//else -> como es division entera con signo utilizo DX y AX ---> DX:AX:=AX*Op
+					//else -> como es division entera con signo utilizo DX y AX ---> DX:AX:=AX/Op
 					varAuxEAX = this.getNewVariable(i,tipoResultado);
 					codigo.add("	MOV "+varAuxEAX+", EAX");
 					codigo.add("	MOV AX, "+op1);
